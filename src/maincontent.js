@@ -1,0 +1,26 @@
+import React from 'react'
+import ConferenceList from './conferenceList'
+import RegisterForm from './registerform'
+import CreateEventForm from './createeventform'
+
+
+class MainContent extends React.Component{
+  render() {
+    return (
+        <main role="main" className="container main-container">
+          <RegisterForm />
+          <h1 className="mt-5">Available Conferences</h1>
+          <p className="lead">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod</p>
+          <p>Use <a href="#">ut labore et dolore magna aliquyam</a> Duis autem vel eum iriure dolor in hendrerit.</p>
+          <ConferenceList />
+          <hr></hr>
+          <h1 className="mt-5">Create a new Event</h1>
+          <p className="lead">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod</p>
+          <p>Use <a href="#">ut labore et dolore magna aliquyam</a> Duis autem vel eum iriure dolor in hendrerit.</p>
+          <CreateEventForm />
+        </main>
+    );
+  }
+}
+
+export default MainContent;
