@@ -1,32 +1,43 @@
 pragma solidity ^0.4.21;
 
 import './RBACWithAdmin.sol';
+import './utils/BytesUtils.sol';
 
-
-
-// keep title in bytes32 or is bytes also possible? would be easier
+/**
+ * @title Conference
+ * @dev A Conference with basic properties (title, year).
+ * @dev An unique Id, which is the SHA-256 hash of title and year
+ * @dev is used to retrieve the conference in ConferenceRegistry
+ * @dev Uses RBAC, which emits events like 'RoleAdded' and 'RoleRemoved'
+ * @dev when an Author or PCmember is added.
+ */
 contract Conference is RBACWithAdmin{
 
+	// ROLE_ADMIN already part of RBAC
 	string constant ROLE_AUTHOR = "author";
   	string constant ROLE_PCMEMBER = "pcmember";
 
-  	uint public id;
-	bytes32 public title;
-	bytes32 public ipfsHash;
+  	//@devs use bytes32, it can be passed out of contract, bytes not
+  	bytes32 public id; // Hash of title and year of conference, should be unique
+	bytes32 public title; // limited length, less than 33 chars
+	bytes32 public ipfsHash; // to be implemented
+	uint public year;
 
-
-  	// Constructor
-	function Conference(uint _id, string _title, bytes32 _ipfsHash) public {
+	function Conference(string _title, uint _year, bytes32 _ipfsHash) public {
 		require(bytes(_title).length <= 32);
 
 		addRole(msg.sender, ROLE_ADMIN);
-		id = _id;
-		title = stringToBytes32(_title); // need title of >= 32 chars, to fit in bytes32
+		id = sha256(_title, _year);
+		year = _year;
+		title = BytesUtils.stringToBytes32(_title); // need title of >= 32 chars, to fit in bytes32
 		ipfsHash = _ipfsHash;
 	}
 
 
-	// Modifier
+	/**
+	 * Modifier
+	 */
+
 	modifier onlyAdminOrPCmember()
 	  {
 	    require(
@@ -46,56 +57,56 @@ contract Conference is RBACWithAdmin{
     	_;
   	}
 
-  	/** 
-  	Public Functions 
-  	**/
+  	/**
+  	 * Public functions
+  	 */
 
-
+  	/**
+  	 * @dev Allowed for admin/chair or PCmember, emits 'RoleAdded'
+  	 * @param addr the address of the soon-to-be author
+  	 */
 	function addAuthors(address[] addr) onlyAdminOrPCmember public{
 		for(uint256 i=0;i<addr.length;i++){
 			addRole(addr[i], ROLE_AUTHOR);
 		}
 	}
 
+	/**
+	 * @dev Only allowed for admin/ chair, emits 'RoleAdded'
+	 * @param addr the address of the soon-to-be PCmember
+	 */
 	function addPCmembers(address[] addr) public {
 		for(uint256 i=0;i<addr.length;i++){
 			adminAddRole(addr[i], ROLE_PCMEMBER);
 		}
 	}
 
-	 // admins can remove any role
-  	function removePCmember(address _addr) onlyAdmin public {
+	/**
+	 * @param  addr address of member to be removed
+	 * 
+	 */
+  	function removePCmember(address addr) onlyAdmin public {
 	    // revert if the user isn't an pcmember
-	    //  (perhaps you want to soft-fail here instead?)
-	    checkRole(_addr, ROLE_PCMEMBER);
+	    checkRole(addr, ROLE_PCMEMBER);
 
-	    // remove the advisor's role
-	    removeRole(_addr, ROLE_PCMEMBER);
+	    // remove the PCmembers role
+	    removeRole(addr, ROLE_PCMEMBER);
   	}
 
-    function removeAuthor(address _addr) onlyAdminOrPCmember public {
+    function removeAuthor(address addr) onlyAdminOrPCmember public {
 	    // revert if the user isn't an author
-	    //  (perhaps you want to soft-fail here instead?)
-	    checkRole(_addr, ROLE_AUTHOR);
+	    checkRole(addr, ROLE_AUTHOR);
 
 	    // remove the authors role
-	    removeRole(_addr, ROLE_AUTHOR);
+	    removeRole(addr, ROLE_AUTHOR);
   	}
 
+  	function sendHash(string x) public {
+   		ipfsHash = BytesUtils.stringToBytes32(x);
+ 	}
 
-  	/* Helpers 
-
-  	*/
-
-  	function stringToBytes32(string memory source) pure internal returns (bytes32 result) {
-    bytes memory tempEmptyStringTest = bytes(source);
-    if (tempEmptyStringTest.length == 0) {
-        return 0x0;
-    }
-
-    assembly {
-        result := mload(add(source, 32))
-    }
-}
-
+ 	// was originally a string
+ 	function getHash() public view returns (bytes32 x) {
+   		return ipfsHash;
+ 	}
 }

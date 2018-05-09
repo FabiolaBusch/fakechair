@@ -15,24 +15,26 @@ const ROLE_AUTHOR = 'author';
 contract('Conference', function (accounts) {
   let mock;
 
+  // need 10 accounts
   const [
     admin,
     author1,
     author2,
     author3,
     author4,
+    author5,
     futurePCmember,
     ...pcmembers
   ] = accounts;
 
-  const _id = 0;
   const _title = 'MyTestConference';
+  const _year = 2018;
   const _ipfsHash = "0x6b14cac30356789cd0c39fec0acc2176c3573abdb799f3b17ccc6972ab4d39ba";
 
   before(async () => {
-    mock = await Conference.new(_id, _title, _ipfsHash,{ from: admin });
+    mock = await Conference.new(_title, _year, _ipfsHash,{ from: admin });
     await mock.addPCmembers(pcmembers, { from: admin });
-    await mock.addAuthors([author3,author4], { from: admin });
+    await mock.addAuthors([author3,author4, author5], { from: admin });
   });
 
   context('in normal conditions', () => {
@@ -58,6 +60,18 @@ contract('Conference', function (accounts) {
     });
     it('allows an pcmember to remove an Author\'s role', async () => {
       await mock.removeAuthor(author4, { from: pcmembers[0] })
+        .should.be.fulfilled;
+    });
+    it('author can check if she is an author of the conference', async () => {
+      await mock.hasRole( author5, ROLE_AUTHOR,  { from: author5 })
+        .should.be.fulfilled;
+    });
+    it('pcmember can check if she is an pcmember of the conference', async () => {
+      await mock.hasRole(pcmembers[2], ROLE_PCMEMBER,  { from: pcmembers[2] })
+        .should.be.fulfilled;
+    });
+    it('admin can check if she is the admin of the conference', async () => {
+      await mock.hasRole(admin, ROLE_ADMIN,  { from: admin })
         .should.be.fulfilled;
     });
 
