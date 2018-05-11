@@ -24,6 +24,22 @@ body,
 }
 
 
+/* IPFS Form styles
+-------------------------------------------------- */
+.IpfsUpload input[type=”file”] {
+ display: inline-block;
+}
+
+.IpfsUpload .table {
+ max-width: 90%;
+ margin: 10px;
+}
+.IpfsUpload.table th {
+ text-align: center;
+}
+
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

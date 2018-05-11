@@ -1,20 +1,20 @@
-const web3 = require('./web3');
+import web3 from './web3'
 
 // store IPFS hash
 // address of contract, not transaction hash 
-const address = '0xd8d5acee949dfb19a0ac07c9744d1357a62e872b';
+const address = '0xa2ccddf6cc2360454f2fde0e0f3ae8d9e187f090';
 
-// in conference.json
+// in contract.json
 const abi = [
     {
       "constant": false,
       "inputs": [
         {
           "name": "x",
-          "type": "uint256"
+          "type": "string"
         }
       ],
-      "name": "set",
+      "name": "sendHash",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -23,11 +23,11 @@ const abi = [
     {
       "constant": true,
       "inputs": [],
-      "name": "get",
+      "name": "getHash",
       "outputs": [
         {
-          "name": "",
-          "type": "uint256"
+          "name": "x",
+          "type": "string"
         }
       ],
       "payable": false,
@@ -36,4 +36,6 @@ const abi = [
     }
   ]
 
-  export default new web3.eth.SimpleStorage(abi, address);
+// small letters, it's a function!!
+export default new web3.eth.Contract(abi, address)
+

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import UserContract from '../build/contracts/User.json'
+import UserContract from './build/contracts/User.json'
 import getWeb3 from './utils/getWeb3'
 
 

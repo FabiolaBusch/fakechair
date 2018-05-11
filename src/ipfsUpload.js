@@ -6,7 +6,7 @@ import ipfs from './ipfs';
 import storehash from './storehash';
 
 import Button from 'react-bootstrap/lib/Button';
-import Grid from 'react-bootstrap/lib/Grid';
+
 import Form from 'react-bootstrap/lib/Form';
 import Table from 'react-bootstrap/lib/Table';
 
@@ -40,8 +40,11 @@ class IpfsUpload extends Component {
         this.setState({buffer});
     };
 
+  
+
 
   onClick = async () => {
+
 
 	try{
     this.setState({blockNumber:"waiting.."});
@@ -64,13 +67,16 @@ class IpfsUpload extends Component {
   }; //onClick
 
   onSubmit = async (event) => {
+
+   
       event.preventDefault();
 
      //bring in user's metamask account address
       const accounts = await web3.eth.getAccounts();
-     
-      console.log('Sending from Metamask account: ' + accounts[0]);
+    
 
+      console.log('Sending from Metamask account: ' + accounts[0]);
+    
     //obtain contract address from storehash.js
       const ethAddress= await storehash.options.address;
       this.setState({ethAddress});
@@ -102,7 +108,7 @@ class IpfsUpload extends Component {
         <div className="IpfsUpload">
 
 
-	<Grid>
+	
           <h3> Choose JSON-event file to send to IPFS </h3>
           <Form onSubmit={this.onSubmit}>
             <input 
@@ -154,7 +160,7 @@ class IpfsUpload extends Component {
                 
                 </tbody>
             </Table>
-        </Grid>
+        
      </div>
       );
     } //render

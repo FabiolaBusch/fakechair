@@ -1,6 +1,6 @@
 import React from 'react'
 import Conference from './conference'
-import ConferenceRegistryContract from '../build/contracts/ConferenceRegistry.json'
+import ConferenceRegistryContract from './build/contracts/ConferenceRegistry.json'
 import getWeb3 from './utils/getWeb3'
 
 
