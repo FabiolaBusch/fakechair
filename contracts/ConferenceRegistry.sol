@@ -27,7 +27,7 @@ contract ConferenceRegistry{
   	// Maps unique Id to index in conference array
   	mapping(bytes32 => uint) public conferenceIndex;
   	bytes32 tempId;
-
+  	bytes32 lastIpfsHash;
   	/**
   	 * Public functions
   	 */
@@ -68,16 +68,17 @@ contract ConferenceRegistry{
 	 * @param  _ipfsHash bytes32 
 	 * @return conferences.length uint (number of conferences)
 	 */
-	function create(string _title, uint _year, bytes32 _ipfsHash) public returns (uint) {
+	function create(string _title, uint _year, string _ipfsHash) public returns (uint) {
 
+		bytes32 _ipfsHashBytes = BytesUtils.stringToBytes32(_ipfsHash);
 		tempId = sha256(_title, _year);
 		require(conferenceIndex[tempId] == 0); // empty mapping is initialized to 0
 
 		// If unique, store index and push it to storage
 	  	conferenceIndex[tempId] = conferences.length;
-		conferences.push(new Conference(_title, _year, _ipfsHash));
+		conferences.push(new Conference(_title, _year, _ipfsHashBytes));
 
-	    emit ConferenceCreated(_title, _year, _ipfsHash);
+	    emit ConferenceCreated(_title, _year, _ipfsHashBytes);
 	    return conferences.length;
 	}
 
@@ -92,8 +93,7 @@ contract ConferenceRegistry{
 	 * @param  _year year of the conference to remove
 	 * @return conferences.length amount of conferences available
 	 */
-	function remove(string _title, uint _year) public returns (uint)
-	  {
+	function remove(string _title, uint _year) public returns (uint) {
 	    tempId = sha256(_title,_year);
 	    uint removedIndex = conferenceIndex[tempId];
 	    require(removedIndex > 0); // Conference needs to exist to be removed!
@@ -125,6 +125,15 @@ contract ConferenceRegistry{
 	    emit ConferenceRemoved(_title, _year);
 	    return conferences.length;
 	}
+
+	function sendHash(string x) public {
+   		lastIpfsHash = BytesUtils.stringToBytes32(x);
+ 	}
+
+ 	// was originally a string
+ 	function getHash() public view returns (bytes32 x) {
+   		return lastIpfsHash;
+ 	}
 
 
 

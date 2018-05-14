@@ -20,7 +20,9 @@ class IpfsUpload extends Component {
       blockNumber:'',
       transactionHash:'',
       gasUsed:'',
-      txReceipt: ''   
+      newYear: '',  
+      newTitle: '',   
+      txReceipt: '' 
     };
 
 	captureFile =(event) => {
@@ -93,14 +95,30 @@ class IpfsUpload extends Component {
   //return the transaction hash from the ethereum contract
  //see, this https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html#methods-mymethod-send
         
-        storehash.methods.sendHash(this.state.ipfsHash).send({
+        /*storehash.methods.sendHash(this.state.ipfsHash).send({
           from: accounts[0] 
         }, (error, transactionHash) => {
           console.log(transactionHash);
           this.setState({transactionHash});
         }); //storehash 
+*/
+        storehash.methods.create(this.state.newTitle, this.state.newYear, this.state.ipfsHash).send({
+          from: accounts[0] 
+        }, (error, transactionHash) => {
+          console.log(transactionHash);
+          this.setState({transactionHash});
+        });
       }) //await ipfs.add 
     }; //onSubmit
+
+  updateNewTitle(evt) {
+    this.setState({newTitle: evt.target.value});
+  };
+
+  updateNewYear(evt) {
+    this.setState({newYear: evt.target.value});
+  }
+
 
 	render() {
       
@@ -115,6 +133,10 @@ class IpfsUpload extends Component {
               type="file"
               onChange={this.captureFile}
             />
+            <p>Conference Details</p>
+          <input value={this.state.newTitle} onChange={evt => this.updateNewTitle(evt)} type="text" className="form-control" id="formGroupExampleInput" placeholder="My Conference"></input>
+          <input value={this.state.newYear} onChange={evt => this.updateNewYear(evt)} type="text" className="form-control" id="formGroupExampleInput" placeholder="Year"></input>
+         
              <Button 
              bsStyle="primary" 
              type="submit"> 

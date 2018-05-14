@@ -1,7 +1,7 @@
 //var User = artifacts.require("./User.sol");
 var ConferenceRegistry = artifacts.require("./ConferenceRegistry.sol");
 var Conference = artifacts.require("./Conference.sol")
-var SimpleStorage = artifacts.require("./SimpleStorage.sol")
+var Contract = artifacts.require("./Contract.sol")
 
 
 var id = 0;
@@ -15,5 +15,5 @@ var pcmembers = [];
 module.exports = function(deployer) {
   deployer.deploy(Conference, id, title, ipfsHash);
   deployer.deploy(ConferenceRegistry);
-  deployer.deploy(SimpleStorage);
+  deployer.deploy(Contract);
 };

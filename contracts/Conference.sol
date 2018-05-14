@@ -101,12 +101,5 @@ contract Conference is RBACWithAdmin{
 	    removeRole(addr, ROLE_AUTHOR);
   	}
 
-  	function sendHash(string x) public {
-   		ipfsHash = BytesUtils.stringToBytes32(x);
- 	}
 
- 	// was originally a string
- 	function getHash() public view returns (bytes32 x) {
-   		return ipfsHash;
- 	}
 }

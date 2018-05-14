@@ -13,13 +13,13 @@ contract('ConferenceRegistry', function (accounts) {
 
   const initialTitle = 'MyTestConference';
   const initialYear = 2018;
-  const initialIpfsHash = "0x6b14cac30356789cd0c39fec0acc2176c3573abdb799f3b17ccc6972ab4d39ba";
+  const initialIpfsHash = "QnTUERxij8NJRirYfPqKQQWSGwwMLctABzgCwLnV6H215F";
 
   const _title1 = 'MyTestConference1';
   const _year1 = 2017;
   const _year2 = 2016;
   const _year3 = 2015;
-  const _ipfsHash1 = "0x7b14cac30356789cd0c39fec0acc2176c3573abdb799f3b17ccc6972ab4d39ba";
+  const _ipfsHash1 = "QmTUERxij8NJRirYfPqKQQWSGwwMLctABzgCwLnV6H215F";
 
 
   before(async () => {
