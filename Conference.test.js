@@ -1,6 +1,7 @@
 const expectThrow = require('./helpers/expectThrow');
 const expectEvent = require('./helpers/expectEvent');
-const multihash = require('../src/utils/multihash');
+const getBytes32FromMultiash = require('../src/helpers/multihash/getBytes32FromMultiash');
+const getMultihashFromContractResponse = require('../src/helpers/multihash/getMultihashFromContractResponse');
 
 const Conference = artifacts.require('Conference');
 
@@ -15,6 +16,7 @@ const ROLE_AUTHOR = 'author';
 
 contract('Conference', function (accounts) {
   let mock;
+  let mock2;
 
   // need 10 accounts
   const [
@@ -33,8 +35,8 @@ contract('Conference', function (accounts) {
   const _ipfsHash = 'QmahqCsAUAw7zMv6P6Ae8PjCTck7taQA6FgGQLnWdKG7U8';
 
   before(async () => {
-    const { digest, hashFunction, size } = multihash.getBytes32FromMultiash(_ipfsHash);
-    mock = await Conference.new(_title, _year, digest, hashFunction, size, { from: admin });
+    const { digest, hashFunction, size } = getBytes32FromMultiash(_ipfsHash);
+    mock = await Conference.new(_title, _year, digest, hashFunction, size { from: admin });
     await mock.addPCmembers(pcmembers, { from: admin });
     await mock.addAuthors([author3,author4, author5], { from: admin });
   });
@@ -93,8 +95,13 @@ contract('Conference', function (accounts) {
       );
     });
 
+    it('announces an EntrySet event when new IPFS hash is set', async () => {
+      await expectEvent(
+        setIPFSHash(accounts[0], _ipfsHash),
+        'EntrySet',
+    );
 });
-
+  });
 
   context('in adversarial conditions', () => {
     it('does not allow a pcmember to remove another pcmember', async () => {

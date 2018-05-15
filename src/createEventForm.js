@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/lib/Form';
 import Table from 'react-bootstrap/lib/Table';
 
 
-class IpfsUpload extends Component {
+class CreateEventForm extends Component {
  
     state = {
       newIpfsHash:null,
@@ -108,7 +108,7 @@ class IpfsUpload extends Component {
 	render() {
       
       return (
-        <div className="IpfsUpload">
+        <div className="createEventForm">
 
 
 	
@@ -143,7 +143,7 @@ class IpfsUpload extends Component {
                 <tbody>
                   <tr>
                     <td>IPFS Hash # stored on Eth Contract</td>
-                    <td>{this.state.ipfsHash}</td>
+                    <td>{this.state.newIpfsHash}</td>
                   </tr>
                   <tr>
                     <td>Ethereum Contract Address</td>
@@ -174,4 +174,4 @@ class IpfsUpload extends Component {
 
 } //App
 
-export default IpfsUpload;
+export default CreateEventForm;

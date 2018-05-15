@@ -13,6 +13,9 @@ import './utils/BytesUtils.sol';
  */
 contract Conference is RBACWithAdmin{
 
+	event IPFSEntrySet (bytes32 digest, uint8 hashFunction, uint8 size);
+
+
 	// ROLE_ADMIN already part of RBAC
 	string constant ROLE_AUTHOR = "author";
   	string constant ROLE_PCMEMBER = "pcmember";
@@ -20,19 +23,24 @@ contract Conference is RBACWithAdmin{
   	//@devs use bytes32, it can be passed out of contract, bytes not
   	bytes32 public id; // Hash of title and year of conference, should be unique
 	bytes32 public title; // limited length, less than 33 chars
-	bytes32 public ipfsHash; // to be implemented
 	uint public year;
+	bytes32 public digest;
+    uint8 public hashFunction;
+    uint8 public size;
+	
 
-	function Conference(string _title, uint _year, bytes32 _ipfsHash) public {
+	function Conference(string _title, uint _year, bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
 		require(bytes(_title).length <= 32);
 
 		addRole(msg.sender, ROLE_ADMIN);
 		id = sha256(_title, _year);
 		year = _year;
 		title = BytesUtils.stringToBytes32(_title); // need title of >= 32 chars, to fit in bytes32
-		ipfsHash = _ipfsHash;
+		digest = _digest;
+		hashFunction = _hashFunction;
+		size = _size;
+		emit IPFSEntrySet(_digest, _hashFunction, _size);
 	}
-
 
 	/**
 	 * Modifier

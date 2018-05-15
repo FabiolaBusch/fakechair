@@ -68,9 +68,9 @@ class CreateEventForm extends React.Component{
       console.log("title:" + this.state.newTitle);
       console.log("year:" + this.state.newYear); 
 
-        conferenceReg.deployed().then((instance) => {
-        this.conferenceRegInst = instance
-        return this.conferenceRegInst.create(this.state.newTitle, this.state.newYear, this.state.ipfsHash, {from: accounts[0], gas: 4700000});
+        const conferenceRegInst = await conferenceReg.deployed()//.then((instance) => {
+        //this.conferenceRegInst = instance
+        return await conferenceRegInst.create(this.state.newTitle, this.state.newYear, this.state.ipfsHash, {from: accounts[0], gas: 4700000});
           }).catch(function(err) {
         console.log(err.message);
       });
