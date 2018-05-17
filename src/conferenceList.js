@@ -16,11 +16,12 @@ class ConferenceList extends React.Component{
 				{id: 2, title:'ExampleConf2', creator:'ExapleChair2',shortDescr:'This is a short description for an event, a journal or a conference that helps to distinguish the events.'},
 				{id: 3, title:'ExampleConf3', creator:'ExapleChair3',shortDescr:'This is a short description for an event, a journal or a conference that helps to distinguish the events.'},
 				{id: 4, title:'ExampleConf4', creator:'ExapleChair4',shortDescr:'This is a short description for an event, a journal or a conference that helps to distinguish the events.'}				
-			]
+			],
+			allConfs: 'null'
 		};
 	}
 
-	componentWillMount() {
+componentWillMount() {
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
 
@@ -36,7 +37,7 @@ class ConferenceList extends React.Component{
     })
   }
 
-  getListing(_id) {
+  getLength() {
     const contract = require('truffle-contract')
     const conferenceReg = contract(ConferenceRegistryContract)
     conferenceReg.setProvider(this.state.web3.currentProvider)
@@ -46,7 +47,24 @@ class ConferenceList extends React.Component{
       conferenceReg.deployed().then((instance) => {
         this.conferenceRegInst = instance
 
-        return this.conferenceRegInst.getListing.call(_id, {from: accounts[0]});
+        return this.conferenceRegInst.conferencesLength.call({from: accounts[0]});
+        }).catch(function(err) {
+      console.log(err.message);
+    });
+    })
+  }
+
+  getAllConferences() {
+    const contract = require('truffle-contract')
+    const conferenceReg = contract(ConferenceRegistryContract)
+    conferenceReg.setProvider(this.state.web3.currentProvider)
+
+    // Get accounts.
+    this.state.web3.eth.getAccounts((error, accounts) => {
+      conferenceReg.deployed().then((instance) => {
+        this.conferenceRegInst = instance
+
+        return this.conferenceRegInst.getAllConferences.call({from: accounts[0]});
         }).catch(function(err) {
       console.log(err.message);
     });

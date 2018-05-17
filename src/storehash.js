@@ -2,7 +2,7 @@ import web3 from './web3'
 
 // store IPFS hash
 // address of contract, not transaction hash 
-const address = '0x6bacb5f96965fb1ae7a4d9d5fc85cdad4e8d5137';
+const address = '0x42c9d89ce6c0dcb7df3e676e7e240bb92691ea11';
 
 // in ConferenceRegistry.json
 const abi = [
@@ -59,7 +59,7 @@ const abi = [
         },
         {
           "indexed": false,
-          "name": "ipfsHash",
+          "name": "id",
           "type": "bytes32"
         }
       ],
@@ -130,6 +130,71 @@ const abi = [
         {
           "name": "",
           "type": "bytes32"
+        },
+        {
+          "name": "",
+          "type": "uint8"
+        },
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getConferenceByIndex",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "name": "",
+          "type": "uint8"
+        },
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getAllConferences",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address[]"
         }
       ],
       "payable": false,
@@ -148,34 +213,19 @@ const abi = [
           "type": "uint256"
         },
         {
-          "name": "_ipfsHash",
-          "type": "string"
+          "name": "_digest",
+          "type": "bytes32"
+        },
+        {
+          "name": "_hashFunction",
+          "type": "uint8"
+        },
+        {
+          "name": "_size",
+          "type": "uint8"
         }
       ],
       "name": "create",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_title",
-          "type": "string"
-        },
-        {
-          "name": "_year",
-          "type": "uint256"
-        }
-      ],
-      "name": "remove",
       "outputs": [
         {
           "name": "",
@@ -207,7 +257,7 @@ const abi = [
       "outputs": [
         {
           "name": "x",
-          "type": "bytes32"
+          "type": "string"
         }
       ],
       "payable": false,

@@ -2,7 +2,7 @@ import React from 'react'
 import ConferenceList from './conferenceList'
 import RegisterForm from './registerform'
 import CreateEventForm from './createEventForm'
-
+import EventSchemaInput from './eventSchemaInput'
 // <RegisterForm /> 
 
 class MainContent extends React.Component{
@@ -20,7 +20,9 @@ class MainContent extends React.Component{
           <p className="lead">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod</p>
           <p>Use <a href="#">ut labore et dolore magna aliquyam</a> Duis autem vel eum iriure dolor in hendrerit.</p>
           <CreateEventForm />
-
+          <hr></hr>
+          <h1 className="mt-5">JSON Schema Input</h1>
+          <EventSchemaInput />
         </main>
     );
   }

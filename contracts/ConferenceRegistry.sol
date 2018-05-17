@@ -42,6 +42,7 @@ contract ConferenceRegistry{
 	/**
 	 * @dev Uses unique id (SHA-256 of title and year) to lookup conference
 	 * @dev in storage.
+	 * @dev Uses multihash, see https://github.com/saurfang/ipfs-multihash-on-solidity
 	 * @param  _title string, conference title
 	 * @param  _year uint, conference year
 	 * 
@@ -60,6 +61,25 @@ contract ConferenceRegistry{
 		      conferences[_index].hashFunction(),
 		      conferences[_index].size()
 		);
+	}
+
+	function getConferenceByIndex(uint _index) public constant 
+		returns (Conference, bytes32, bytes32, uint, bytes32, uint8, uint8){
+
+	    return (
+		      conferences[_index],
+		      conferences[_index].id(),
+		      conferences[_index].title(),
+		      conferences[_index].year(),
+		      conferences[_index].digest(),
+		      conferences[_index].hashFunction(),
+		      conferences[_index].size()
+		);
+	}
+
+	function getAllConferences() public constant returns (Conference[]){
+
+	    return conferences;
 	}
 
 

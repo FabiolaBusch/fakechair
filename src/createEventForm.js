@@ -4,6 +4,7 @@ import './ipfsUpload.css';
 import web3 from './web3'
 import ipfs from './ipfs';
 import storehash from './storehash';
+import multihash from './utils/multihash';
 
 import Button from 'react-bootstrap/lib/Button';
 
@@ -86,8 +87,9 @@ class CreateEventForm extends Component {
         console.log(err,ipfsHash);
         //setState by setting ipfsHash to ipfsHash[0].hash 
         this.setState({ newIpfsHash:ipfsHash[0].hash });
-
-        storehash.methods.create(this.state.newTitle, this.state.newYear, this.state.newIpfsHash).send({
+        let { digest, hashFunction, size } = multihash.getBytes32FromMultiash(this.state.newIpfsHash);
+        
+        storehash.methods.create(this.state.newTitle, this.state.newYear, digest, hashFunction, size ).send({
           from: accounts[0] 
         }, (error, transactionHash) => {
           console.log(transactionHash);
