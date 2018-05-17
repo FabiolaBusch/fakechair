@@ -2,7 +2,7 @@ import web3 from './web3'
 
 // store IPFS hash
 // address of contract, not transaction hash 
-const address = '0x42c9d89ce6c0dcb7df3e676e7e240bb92691ea11';
+const address = '0x39aafb4234e37cff2245a99346c15c6395937603';
 
 // in ConferenceRegistry.json
 const abi = [
