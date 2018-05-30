@@ -1,7 +1,13 @@
 import React from 'react'
-import Conference from './conference'
-import ConferenceRegistryContract from './build/contracts/ConferenceRegistry.json'
+import ConferenceRegistryContract from '../build/contracts/ConferenceRegistry.json'
 import getWeb3 from './utils/getWeb3'
+import Web3 from 'web3'
+import multihash from './utils/multihash';
+
+import Button from 'react-bootstrap/lib/Button';
+import Table from 'react-bootstrap/lib/Table';
+import Form from 'react-bootstrap/lib/Form';
+
 
 
 
@@ -10,18 +16,17 @@ class ConferenceList extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
-			confs: Array(4).fill('Access'),
-			data: [
-				{id: 1, title:'ExampleConf1', creator:'ExapleChair1',shortDescr:'This is a short description for an event, a journal or a conference that helps to distinguish the events.'},
-				{id: 2, title:'ExampleConf2', creator:'ExapleChair2',shortDescr:'This is a short description for an event, a journal or a conference that helps to distinguish the events.'},
-				{id: 3, title:'ExampleConf3', creator:'ExapleChair3',shortDescr:'This is a short description for an event, a journal or a conference that helps to distinguish the events.'},
-				{id: 4, title:'ExampleConf4', creator:'ExapleChair4',shortDescr:'This is a short description for an event, a journal or a conference that helps to distinguish the events.'}				
-			],
-			allConfs: 'null'
+			length: 0,
+      index: 0,
+      web3: null,
+      confJSON: null,
+      title: null,
+      year:null,
+      ipfsHash: null
 		};
 	}
 
-componentWillMount() {
+  componentWillMount() {
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
 
@@ -31,76 +36,119 @@ componentWillMount() {
         web3: results.web3
       })
 
+      // Instantiate contract once web3 provided.
+      this.instantiateContract()
     })
     .catch(() => {
       console.log('Error finding web3.')
     })
-  }
+}
 
-  getLength() {
+ instantiateContract() {
+    /*
+     * SMART CONTRACT EXAMPLE
+     *
+     * Normally these functions would be called in the context of a
+     * state management library, but for convenience I've placed them here.
+     */
+
     const contract = require('truffle-contract')
-    const conferenceReg = contract(ConferenceRegistryContract)
-    conferenceReg.setProvider(this.state.web3.currentProvider)
+    const conferenceRegistry = contract(ConferenceRegistryContract)
+    conferenceRegistry.setProvider(this.state.web3.currentProvider)
+
+    // Declaring this for later so we can chain functions on SimpleStorage.
+    var conferenceRegistryInstance
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
-      conferenceReg.deployed().then((instance) => {
-        this.conferenceRegInst = instance
+      conferenceRegistry.deployed().then((instance) => {
+        conferenceRegistryInstance = instance
 
-        return this.conferenceRegInst.conferencesLength.call({from: accounts[0]});
-        }).catch(function(err) {
-      console.log(err.message);
+        // Stores a given value, 5 by default.
+        return conferenceRegistryInstance.conferencesLength.call({from: accounts[0]})
+      }).then((result) => {
+        // Get the value from the contract to prove it worked.
+        return this.setState({ length: result.c[0] })
+      }).catch(function(err) {
+      console.log(err);
     });
     })
   }
 
-  getAllConferences() {
+  showConf = async () =>  {
+
     const contract = require('truffle-contract')
-    const conferenceReg = contract(ConferenceRegistryContract)
-    conferenceReg.setProvider(this.state.web3.currentProvider)
+    const conferenceRegistry = contract(ConferenceRegistryContract)
+    conferenceRegistry.setProvider(this.state.web3.currentProvider)
+
+    // Declaring this for later so we can chain functions on SimpleStorage.
+    var conferenceRegistryInstance
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
-      conferenceReg.deployed().then((instance) => {
-        this.conferenceRegInst = instance
+      conferenceRegistry.deployed().then((instance) => {
+        conferenceRegistryInstance = instance
 
-        return this.conferenceRegInst.getAllConferences.call({from: accounts[0]});
-        }).catch(function(err) {
-      console.log(err.message);
+        
+        return conferenceRegistryInstance.getConferenceByIndex(this.state.index, {from: accounts[0]})
+      }).then((result) => {
+          // Update state with the result.
+       
+
+        let cleanTitle = Web3.utils.toAscii('0' + result[2].split('0')[1]); 
+        let year = result[3].c[0]
+        let hash = multihash.getMultihashFromContractResponse([result[4].toString(), result[5].c[0], result[6].c[0].toString()])
+
+        console.log(cleanTitle)
+        console.log(hash.toString())
+
+        return this.setState({title: cleanTitle, year: year, ipfsHash: hash})
+      }).catch(function(err) {
+      console.log(err);
     });
     })
   }
 
+ 
 
-	renderConf(i){
-		return (<Conference 
-			data={this.state.data[i]}
-			value={this.state.confs[i]} 
-			onClick={() => this.handleSelect(i)}
-
-		/>
-		);
-	}
-
-	handleSelect(i){
-		const confs = this.state.confs.slice();
-		confs[i] = 'Accessed';
-		this.setState({confs: confs});
-	}
 
 	render(){
 		return(
 
 			<div className="row">
-        <div className="col-xs-12 col-sm-8 col-sm-push-2">
-            <div id="confRow" className="row">
-             {this.renderConf(0)}
-						 {this.renderConf(1)}
-						 {this.renderConf(2)}
-						 {this.renderConf(3)}
-            </div>
-          <br/>
-        </div>
+        <p>Number of available conferences: {this.state.length}</p>
+        <br></br>
+        Search for Index:
+        <input value={this.state.index} onChange={evt => this.setState({index: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Index"></input>
+        <Button bsStyle="primary"  onClick={this.showConf}> Get Conference </Button>
+
+
+        <Table bordered responsive>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+         
+          <tbody>
+            <tr>
+              <td>Title</td>
+              <td>{this.state.title}</td>
+            </tr>
+            <tr>
+              <td>Year</td>
+              <td>{this.state.year}</td>
+            </tr>
+
+            <tr>
+              <td>IPFS Hash</td>
+              <td>{this.state.ipfsHash}</td>
+            </tr>
+          </tbody>
+       </Table>
+
+        
       </div>
 		);
 	}
