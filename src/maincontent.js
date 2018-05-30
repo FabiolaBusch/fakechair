@@ -1,7 +1,7 @@
 import React from 'react'
-import ConferenceList from './conferenceList'
-import RegisterForm from './registerform'
-import CreateEventForm from './createEventForm'
+import ConferenceList2 from './conferenceList2'
+//import RegisterForm from './registerform'
+//import CreateEventForm from './createEventForm'
 import EventSchemaInput from './eventSchemaInput'
 // <RegisterForm /> <CreateEventForm /> <ConferenceList /> <RegisterForm />
 
@@ -14,15 +14,13 @@ class MainContent extends React.Component{
           <h1 className="mt-5">Available Conferences</h1>
           <p className="lead">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod</p>
           <p>Use <a href="#">ut labore et dolore magna aliquyam</a> Duis autem vel eum iriure dolor in hendrerit.</p>
-          
+          <ConferenceList2 />
           <hr></hr>
           <h1 className="mt-5">Create a new Event</h1>
           <p className="lead">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod</p>
           <p>Use <a href="#">ut labore et dolore magna aliquyam</a> Duis autem vel eum iriure dolor in hendrerit.</p>
-          
-          <hr></hr>
-          <h1 className="mt-5">JSON Schema Input</h1>
           <EventSchemaInput />
+
         </main>
     );
   }
