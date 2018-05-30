@@ -55,8 +55,8 @@ function parseContractResponse(response) {
   const [digest, hashFunction, size] = response;
   return {
     digest,
-    hashFunction: hashFunction.toNumber(),
-    size: size.toNumber(),
+    hashFunction: Number(hashFunction),
+    size: Number(size),
   };
 }
 
