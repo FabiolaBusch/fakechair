@@ -58,7 +58,8 @@ class ConferenceList extends React.Component{
 		this.state={
       web3: null,
 			length: 0,
-      index: 0,
+      searchTitle: "",
+      searchYear: "",
       numChildren:0,
 
       newTitle: null,
@@ -133,7 +134,7 @@ class ConferenceList extends React.Component{
         conferenceRegistryInstance = instance
 
         
-        return conferenceRegistryInstance.getConferenceByIndex(this.state.index, {from: accounts[0]})
+        return conferenceRegistryInstance.getConference(this.state.searchTitle, this.state.searchYear, {from: accounts[0]})
       }).then((result) => {
           // Update state with the result.
        
@@ -173,7 +174,9 @@ class ConferenceList extends React.Component{
         <br></br>
         <br></br>
         <p> Search by Index:</p>
-        <input value={this.state.index} onChange={evt => this.setState({index: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Index"></input>
+        <input value={this.state.searchTitle} onChange={evt => this.setState({searchTitle: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Title"></input>
+        <input value={this.state.yearchYear} onChange={evt => this.setState({searchYear: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Year"></input>
+
         <Button bsStyle="primary"  onClick={this.showConf}> Get Conference </Button>
 
 
