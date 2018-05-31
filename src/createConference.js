@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import ipfs from './ipfs';
+import ipfs from './utils/ipfs';
 import Form from "react-jsonschema-form";
-import web3 from './web3'
+import web3 from './utils/web3'
 import ConferenceRegistryContract from '../build/contracts/ConferenceRegistry.json'
-
-import storehash from './storehash';
 import multihash from './utils/multihash';
 
 
@@ -12,12 +10,11 @@ import Button from 'react-bootstrap/lib/Button';
 
 import Table from 'react-bootstrap/lib/Table';
 
-class EventSchemaInput extends Component {
+class CreateConference extends Component {
 
     state = {
       newIpfsHash:null,
       buffer:'',
-      ethAddress:'',
       blockNumber:'',
       transactionHash:'',
       gasUsed:'',
@@ -136,10 +133,6 @@ class EventSchemaInput extends Component {
       const conferenceRegistry = contract(ConferenceRegistryContract);
       conferenceRegistry.setProvider(web3.currentProvider);
     
-    //obtain contract address from storehash.js
-      const ethAddress= await storehash.options.address;
-      this.setState({ethAddress});
-
     //save document to IPFS,return its hash#, and set hash# to state
     //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add 
 
@@ -217,4 +210,4 @@ render() {
 
 }
 
-export default EventSchemaInput;
+export default CreateConference;

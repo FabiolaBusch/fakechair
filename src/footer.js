@@ -8,7 +8,7 @@ class Footer extends Component {
 		return(
 			<footer className="footer">
       <div className="container">
-        <span className="text-muted">Sticky footer is sticky.</span>
+        <span className="text-muted">This is not a sticky footer.</span>
       </div>
     </footer>
 		);

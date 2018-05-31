@@ -3,48 +3,11 @@ import ConferenceRegistryContract from '../build/contracts/ConferenceRegistry.js
 import getWeb3 from './utils/getWeb3'
 import Web3 from 'web3'
 import multihash from './utils/multihash';
+import Conference from './conference'
 
 import Button from 'react-bootstrap/lib/Button';
-import Table from 'react-bootstrap/lib/Table';
 
 
-
-class Conference extends React.Component{
-
-    render(){
-      return(<Table bordered responsive>
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-         
-          <tbody>
-            <tr>
-              <td>Title</td>
-              <td>{this.props.title}</td>
-            </tr>
-            <tr>
-              <td>Year</td>
-              <td>{this.props.year}</td>
-            </tr>
-
-            <tr>
-              <td>IPFS Hash</td>
-              <td>{this.props.hash}</td>
-            </tr>
-
-            <tr>
-              <td>Contract Address</td>
-              <td>{this.props.address}</td>
-            </tr>
-          </tbody>
-       </Table>
-       );
-    }
-
-}
 
 class ConferenceList extends React.Component{
 
@@ -68,19 +31,19 @@ class ConferenceList extends React.Component{
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
 
-    getWeb3
-    .then(results => {
-      this.setState({
-        web3: results.web3
-      })
+      getWeb3
+      .then(results => {
+        this.setState({
+          web3: results.web3
+        })
 
-      // Instantiate contract once web3 provided.
-      this.instantiateContract()
-    })
-    .catch(() => {
-      console.log('Error finding web3.')
-    })
-}
+        // Instantiate contract once web3 provided.
+        this.instantiateContract()
+      })
+      .catch(() => {
+        console.log('Error finding web3.')
+      })
+  }
 
  instantiateContract() {
     /*

@@ -1,38 +1,44 @@
 import React from 'react'
 
+import Table from 'react-bootstrap/lib/Table';
+
+
+
 class Conference extends React.Component{
-	
 
-	constructor(props){
-		super(props)
+    render(){
+      return(<Table bordered responsive>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+         
+          <tbody>
+            <tr>
+              <td>Title</td>
+              <td>{this.props.title}</td>
+            </tr>
+            <tr>
+              <td>Year</td>
+              <td>{this.props.year}</td>
+            </tr>
 
-		this.state=
-			{			
-			id: 0,
-			title: 'ExampleConf0',
-			creator: 'ExapleChair1',
-			shortDescr: 'Short Description 1'
-		}
-	}
+            <tr>
+              <td>IPFS Hash</td>
+              <td>{this.props.hash}</td>
+            </tr>
 
-	componentDidMount() {
-		this.setState(this.props.data)
-	}
+            <tr>
+              <td>Contract Address</td>
+              <td>{this.props.address}</td>
+            </tr>
+          </tbody>
+       </Table>
+       );
+    }
 
-	render(){
-		return(
-			<div className="card" >
-			  <img className="card-img-top" src="" alt="Card"></img>
-			  <div className="card-body">
-			    <h5 className="card-title">{this.state.title}</h5>
-			    <p className="card-text">{this.state.shortDescr}</p>
-			    <button href="#" className="btn btn-outline-secondary" onClick={() => this.props.onClick()}>{this.props.value}</button>
-			    <br></br>
-			  </div>
-			</div>
-		);
-	}
 }
 
-
-export default Conference
+export default Conference;
