@@ -1,5 +1,6 @@
 import React from 'react'
 import ConferenceList from './conferenceList'
+import AddMember from './addMember'
 //import RegisterForm from './registerform'
 //import CreateEventForm from './createEventForm'
 import EventSchemaInput from './eventSchemaInput'
@@ -15,7 +16,7 @@ class MainContent extends React.Component{
           <hr></hr>
 
           <h1 className="mt-5">Add Members to Conference</h1>
-          
+          <AddMember />
           <hr></hr>
 
           <h1 className="mt-5">Add a Paper to Conference</h1>

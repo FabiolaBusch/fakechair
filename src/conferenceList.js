@@ -6,23 +6,65 @@ import multihash from './utils/multihash';
 
 import Button from 'react-bootstrap/lib/Button';
 import Table from 'react-bootstrap/lib/Table';
-import Form from 'react-bootstrap/lib/Form';
 
 
 
+class Conference extends React.Component{
+
+  constructor(props){
+    super(props);
+  }
+
+
+    render(){
+      return(<Table bordered responsive>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+         
+          <tbody>
+            <tr>
+              <td>Title</td>
+              <td>{this.props.title}</td>
+            </tr>
+            <tr>
+              <td>Year</td>
+              <td>{this.props.year}</td>
+            </tr>
+
+            <tr>
+              <td>IPFS Hash</td>
+              <td>{this.props.hash}</td>
+            </tr>
+
+            <tr>
+              <td>Contract Address</td>
+              <td>{this.props.address}</td>
+            </tr>
+          </tbody>
+       </Table>
+       );
+    }
+
+}
 
 class ConferenceList extends React.Component{
 
 	constructor(props){
 		super(props);
 		this.state={
+      web3: null,
 			length: 0,
       index: 0,
-      web3: null,
-      confJSON: null,
-      title: null,
-      year:null,
-      ipfsHash: null
+      numChildren:0,
+
+      newTitle: null,
+      newYear:null,
+      newIpfsHash: null, 
+      newAddress: null
 		};
 	}
 
@@ -77,6 +119,7 @@ class ConferenceList extends React.Component{
 
   showConf = async () =>  {
 
+
     const contract = require('truffle-contract')
     const conferenceRegistry = contract(ConferenceRegistryContract)
     conferenceRegistry.setProvider(this.state.web3.currentProvider)
@@ -94,15 +137,17 @@ class ConferenceList extends React.Component{
       }).then((result) => {
           // Update state with the result.
        
+        //console.log(result)
 
+        let address = result[0];
         let cleanTitle = Web3.utils.toAscii('0' + result[2].split('0')[1]); 
-        let year = result[3].c[0]
+        let year = result[3].c[0];
         let hash = multihash.getMultihashFromContractResponse([result[4].toString(), result[5].c[0], result[6].c[0].toString()])
 
-        console.log(cleanTitle)
-        console.log(hash.toString())
+        //console.log(cleanTitle)
+        //console.log(hash.toString())
 
-        return this.setState({title: cleanTitle, year: year, ipfsHash: hash})
+        return this.setState({newTitle: cleanTitle, newYear: year, newIpfsHash: hash, newAddress: address, numChildren: this.state.numChildren + 1})
       }).catch(function(err) {
       console.log(err);
     });
@@ -113,46 +158,34 @@ class ConferenceList extends React.Component{
 
 
 	render(){
+    const children = [];
+
+    for (var i = 0; i < this.state.numChildren; i += 1) {
+
+      children.push( <Conference title={this.state.newTitle} year={this.state.newYear} hash={this.state.newIpfsHash} address={this.state.newAddress} />);
+    };
+
+
 		return(
 
 			<div className="row">
-        <p>Number of available conferences: {this.state.length}</p>
+        <p>Number of available conferences: {this.state.length}. </p>
         <br></br>
-        Search for Index:
+        <br></br>
+        <p> Search by Index:</p>
         <input value={this.state.index} onChange={evt => this.setState({index: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Index"></input>
         <Button bsStyle="primary"  onClick={this.showConf}> Get Conference </Button>
 
 
-        <Table bordered responsive>
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-         
-          <tbody>
-            <tr>
-              <td>Title</td>
-              <td>{this.state.title}</td>
-            </tr>
-            <tr>
-              <td>Year</td>
-              <td>{this.state.year}</td>
-            </tr>
-
-            <tr>
-              <td>IPFS Hash</td>
-              <td>{this.state.ipfsHash}</td>
-            </tr>
-          </tbody>
-       </Table>
-
+        {children}
+        
         
       </div>
 		);
 	}
 }
+
+
 
 
 export default ConferenceList

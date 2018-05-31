@@ -129,15 +129,13 @@ class EventSchemaInput extends Component {
     //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add 
 
       await ipfs.add(buffer, (err, ipfsHash) => {
-        console.log(err,ipfsHash);
+        //console.log(err,ipfsHash);
         //setState by setting ipfsHash to ipfsHash[0].hash 
         this.setState({ newIpfsHash:ipfsHash[0].hash });
         let { digest, hashFunction, size } = multihash.getBytes32FromMultiash(this.state.newIpfsHash);
         
         // gas limit: highes possible amount
-        storehash.methods.create(formData.Title, formData.Year, digest, hashFunction, size ).send({
-          from: accounts[0] , gasLimit: 6385876
-        }, (error, transactionHash) => {
+        storehash.methods.create(formData.Title, formData.Year, digest, hashFunction, size ).send({ from: accounts[0] , gasLimit: 6385876}, (error, transactionHash) => {
           console.log(transactionHash);
           //this.setState({transactionHash});
         });
