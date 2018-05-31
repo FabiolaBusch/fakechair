@@ -11,11 +11,6 @@ import Table from 'react-bootstrap/lib/Table';
 
 class Conference extends React.Component{
 
-  constructor(props){
-    super(props);
-  }
-
-
     render(){
       return(<Table bordered responsive>
           <thead>
@@ -163,7 +158,7 @@ class ConferenceList extends React.Component{
 
     for (var i = 0; i < this.state.numChildren; i += 1) {
 
-      children.push( <Conference title={this.state.newTitle} year={this.state.newYear} hash={this.state.newIpfsHash} address={this.state.newAddress} />);
+      children.push( <Conference key={i} title={this.state.newTitle} year={this.state.newYear} hash={this.state.newIpfsHash} address={this.state.newAddress} />);
     };
 
 
@@ -171,9 +166,7 @@ class ConferenceList extends React.Component{
 
 			<div className="row">
         <p>Number of available conferences: {this.state.length}. </p>
-        <br></br>
-        <br></br>
-        <p> Search by Index:</p>
+
         <input value={this.state.searchTitle} onChange={evt => this.setState({searchTitle: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Title"></input>
         <input value={this.state.yearchYear} onChange={evt => this.setState({searchYear: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Year"></input>
 

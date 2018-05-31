@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ipfs from './ipfs';
 import Form from "react-jsonschema-form";
 import web3 from './web3'
+import ConferenceRegistryContract from '../build/contracts/ConferenceRegistry.json'
 
 import storehash from './storehash';
 import multihash from './utils/multihash';
@@ -27,8 +28,8 @@ class EventSchemaInput extends Component {
 
   schema = {
     "$schema": "http://json-schema.org/draft-06/schema#",
-    "title": "NewEvent",
-    "description": "Description of a new Conference",
+    "title": "NewConference",
+    "description": "Input form to create a new conference on the blockchain.",
     "type": "object",
     "properties": {
       "Title": {
@@ -101,16 +102,26 @@ class EventSchemaInput extends Component {
 
   log = (type) => console.log.bind(console, type);
 
-  onSubmit = ({formData}) => console.log("Data submitted: ",  formData);
+  onClick = async () => {
+    try{
+      this.setState({blockNumber:"waiting.."});
+      this.setState({gasUsed:"waiting..."});
 
-  onSubmitIPFS = async ({formData}) => {
-    const buf = Buffer.from(JSON.stringify(formData)); // create Buffer 
-    
-    await ipfs.add(buf, (err, ipfsHash) => {
-        console.log(err,ipfsHash);
-        }
-      ); 
-  };
+    //get Transaction Receipt in console on click
+    //See: https://web3js.readthedocs.io/en/1.0/web3-eth.html#gettransactionreceipt
+
+      await web3.eth.getTransactionReceipt(this.state.transactionHash, (err, txReceipt)=>{
+        console.log(err,txReceipt);
+        this.setState({txReceipt});
+      }); //await for getTransactionReceipt
+
+      await this.setState({blockNumber: this.state.txReceipt.blockNumber});
+      await this.setState({gasUsed: this.state.txReceipt.gasUsed});    
+      } //try
+      catch(error){
+          console.log(error);
+        } //catch
+    }; //onClick
 
   onSubmitETHIPFS = async ({formData}) => {
     // create buffer from javascript object
@@ -120,6 +131,10 @@ class EventSchemaInput extends Component {
      //bring in user's metamask account address
       const accounts = await web3.eth.getAccounts();
       console.log('Sending from Metamask account: ' + accounts[0]);
+
+      const contract = require('truffle-contract')
+      const conferenceRegistry = contract(ConferenceRegistryContract);
+      conferenceRegistry.setProvider(web3.currentProvider);
     
     //obtain contract address from storehash.js
       const ethAddress= await storehash.options.address;
@@ -129,16 +144,21 @@ class EventSchemaInput extends Component {
     //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add 
 
       await ipfs.add(buffer, (err, ipfsHash) => {
-        //console.log(err,ipfsHash);
+        
         //setState by setting ipfsHash to ipfsHash[0].hash 
         this.setState({ newIpfsHash:ipfsHash[0].hash });
         let { digest, hashFunction, size } = multihash.getBytes32FromMultiash(this.state.newIpfsHash);
         
         // gas limit: highes possible amount
-        storehash.methods.create(formData.Title, formData.Year, digest, hashFunction, size ).send({ from: accounts[0] , gasLimit: 6385876}, (error, transactionHash) => {
-          console.log(transactionHash);
-          //this.setState({transactionHash});
-        });
+        // storehash.methods.create(formD ...).send() ...
+        // 
+        conferenceRegistry.deployed().then(instance => {
+          instance.create(formData.Title, formData.Year, digest, hashFunction, size , { from: accounts[0] , gasLimit: 6385876}).then(transactionHash => {
+          console.log(transactionHash.tx);
+          let tx = transactionHash.tx;
+          this.setState({transactionHash: tx});
+          });
+        })
       }) //await ipfs.add 
     }; //onSubmit
 

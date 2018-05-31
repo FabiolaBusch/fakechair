@@ -1,73 +1,73 @@
 {
-	"$schema": "http://json-schema.org/draft-06/schema#",
-	"title": "NewEvent",
-	"description": "Description of a new Conference",
-	"type": "object",
-	"properties": {
-		"title": {
-			"type": "string"
-		}, 
-		"year": {
-			"description": "Year the Conference will take place",
-			"type": "integer", 
-			"minimum": 2018
-		},
-		"start": {
-			"format": "date-times",
-			"type": "string",
-			"description": "Event starting time"
-		},
-		"end": {
-			"format": "date-times",
-			"type": "string",
-			"description": "Event ending time"
-		},
-		"abstract": {
-			"type": "string",
-			"description": "A brief description of the event.",
-			"minLength": 500,
-			"maxLength": 1500
-		}, 
-		"topics": {
-			"type": "array", 
-			"items": {
-				"type": "string", 
-				"description": "Topics of interest."
-			}, 
-			"minLength": 1,
-            "uniqueItems": true
-		}, 
-		"paper-submission-date": {
-			"format": "date-times",
-			"type": "string"
-		}, 
-		"acceptance-notification-date": {
-			"format": "date-times",
-			"type": "string"
-		}, 
-		"submission-details": {
-			"type": "string", 
-			"description": "Details about the submission format, length, requirements and conditions."
-		}, 
-		"chairs": {
-			"type": "array", 
-			"items": {
-				"type": "string", 
-				"description": "Name/id of chairs"
-			}, 
-			"minItems": 1,
-            "uniqueItems": true
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "NewConference",
+    "description": "Input form to create a new conference on the blockchain.",
+    "type": "object",
+    "properties": {
+      "Title": {
+        "type": "string"
+      }, 
+      "Year": {
+        "description": "Year the Conference will take place",
+        "type": "integer", 
+        "minimum": 2018
+      },
+      "Start": {
+        "format": "alt-date",
+        "type": "string",
+        "description": "Event starting time"
+      },
+      "End": {
+        "format": "alt-date",
+        "type": "string",
+        "description": "Event ending time"
+      },
+      "Abstract": {
+        "type": "string",
+        "description": "A brief description of the event.",
+        "minLength": 500,
+        "maxLength": 1500
+      }, 
+      "Topics": {
+        "type": "array", 
+        "items": {
+          "type": "string", 
+          "description": "Topics of interest."
+        }, 
+        "minLength": 1,
+              "uniqueItems": true
+      }, 
+      "Paper-Submission-Date": {
+        "format": "alt-date",
+        "type": "string"
+      }, 
+      "Acceptance-Notification-Date": {
+        "format": "alt-date",
+        "type": "string"
+      }, 
+      "Submission-Details": {
+        "type": "string", 
+        "description": "Details about the submission format, length, requirements and conditions."
+      }, 
+      "Chairs": {
+        "type": "array", 
+        "items": {
+          "type": "string", 
+          "description": "Name/id of chairs"
+        }, 
+        "minItems": 1,
+              "uniqueItems": true
 
-		},
-		"programm-committee": {
-			"type": "array", 
-			"items": {
-				"type": "string",
-				"description": "Name/id of PC members."
-			}, 
-			"minItems": 1,
-            "uniqueItems": true
-		}
-	},
-	"required": ["title", "year","start", "end", "abstract", "topics", "paper-submission-date", "acceptance-notification-date", "submission-details" ]
-}
+      },
+      "Programm-Committee": {
+        "type": "array", 
+        "items": {
+          "type": "string",
+          "description": "Name/id of PC members."
+        }, 
+        "minItems": 1,
+              "uniqueItems": true
+      }
+    },
+    "required": ["title", "year","start", "end", "abstract", "topics", "paper-submission-date", "acceptance-notification-date", "submission-details" ]
+  };

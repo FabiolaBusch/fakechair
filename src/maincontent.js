@@ -23,7 +23,7 @@ class MainContent extends React.Component{
           
           <hr></hr>
 
-          <h1 className="mt-5">Create a new Event</h1>
+          <h1 className="mt-5">Create a new Conference</h1>
           <EventSchemaInput />
 
         </main>

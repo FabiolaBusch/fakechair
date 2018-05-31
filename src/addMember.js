@@ -15,8 +15,7 @@ class AddMember extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
-			title:"",
-      year:"",
+
       role:"",
       newMember:"", 
       address: '', 
@@ -34,17 +33,12 @@ class AddMember extends React.Component{
         web3: results.web3
       })
 
-      // Instantiate contract once web3 provided.
-      this.instantiateContract()
     })
     .catch(() => {
       console.log('Error finding web3.')
     })
 }
 
- instantiateContract() {
-
-  }
 
   addMember = async () => {
 
@@ -59,10 +53,10 @@ class AddMember extends React.Component{
 
         console.log(instance)
 
-        return instance.addAuthors([this.state.newMember], {from: accounts[0], gasLimit: 6385876})
-      //})//.then((result) => {
+        return instance.adminAddRole(this.state.newMember, this.state.role, {from: accounts[0], gasLimit: 6385876})
+      }).then((result) => {
 
-        //console.log(result)
+        console.log(result)
 
       }).catch(function(err) {
       console.log(err);
@@ -78,8 +72,6 @@ class AddMember extends React.Component{
 			<div className="row">
         <p>Add a "pcmember" or an "author" using her address to an existing conference.</p>
         <br></br>
-        <input value={this.state.title} onChange={evt => this.setState({title: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Conference Title"></input>
-        <input value={this.state.year} onChange={evt => this.setState({year: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Conference Year"></input>
         <input value={this.state.role} onChange={evt => this.setState({role: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="New members role"></input>
         <input value={this.state.address} onChange={evt => this.setState({address: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Conference Contract Address"></input>
 
