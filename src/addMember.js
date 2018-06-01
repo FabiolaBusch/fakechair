@@ -15,6 +15,7 @@ class AddMember extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
+      alert: 'none',
 
       role:"",
       newMember:"", 
@@ -47,21 +48,33 @@ class AddMember extends React.Component{
     conference.setProvider(this.state.web3.currentProvider)
 
     // Get accounts.
-    this.state.web3.eth.getAccounts((error, accounts) => {
-      // get conference instance
-      conference.at(this.state.address).then((instance) => {
+    const accounts = await this.state.web3.eth.getAccounts() 
 
-        console.log(instance)
+    // get conference instance
+    const conferenceInstance = await conference.at(this.state.address)
 
-        return instance.adminAddRole(this.state.newMember, this.state.role, {from: accounts[0], gasLimit: 6385876})
-      }).then((result) => {
+    try{
+      
+      //let isAddress = this.state.web3.utils.isAddress(this.state.newMember)
+      //let hasRole = await conferenceInstance.hasRole.call(accounts[0], 'admin',  {from: accounts[0]})
+      //console.log("hasRole admin: " + hasRole)
+      // For success notification
+      var events = conferenceInstance.RoleAdded();
+      events.watch((error, result) => { 
+        if(!error){
+          return this.setState({alert: 'inline-block'})
+        }
+        else{
+          console.error(error)
+        }
+      });
 
-        console.log(result)
-
-      }).catch(function(err) {
-      console.log(err);
-    });
-    })
+      await conferenceInstance.adminAddRole(this.state.newMember,this.state.role, {from: accounts[0], gasLimit: 6385876})
+      events.stopWatching();
+    }
+    catch(error){
+      console.error(error)
+    }
   }
 
 
@@ -78,6 +91,13 @@ class AddMember extends React.Component{
 
         <input value={this.state.newMember} onChange={evt => this.setState({newMember: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="New Members Address"></input>
         <Button bsStyle="primary" type="submit" onClick={this.addMember}> Add Member </Button>
+
+        <div className="alert alert-success alert-dismissible fade show" role="alert"  style={{display: this.state.alert}}>
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <strong>Success!</strong> 
+        </div>
  
       </div>
 		);

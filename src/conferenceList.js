@@ -45,30 +45,27 @@ class ConferenceList extends React.Component{
       })
   }
 
+
+  /*
+  Gets number of conferences.
+   */
  instantiateContract() {
-    /*
-     * SMART CONTRACT EXAMPLE
-     *
-     * Normally these functions would be called in the context of a
-     * state management library, but for convenience I've placed them here.
-     */
 
     const contract = require('truffle-contract')
     const conferenceRegistry = contract(ConferenceRegistryContract)
     conferenceRegistry.setProvider(this.state.web3.currentProvider)
 
-    // Declaring this for later so we can chain functions on SimpleStorage.
-    var conferenceRegistryInstance
+    let conferenceRegistryInstance
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
       conferenceRegistry.deployed().then((instance) => {
         conferenceRegistryInstance = instance
 
-        // Stores a given value, 5 by default.
+        // Gets number of conferences available
         return conferenceRegistryInstance.conferencesLength.call({from: accounts[0]})
       }).then((result) => {
-        // Get the value from the contract to prove it worked.
+        
         return this.setState({ length: result.c[0] })
       }).catch(function(err) {
       console.log(err);
@@ -76,15 +73,16 @@ class ConferenceList extends React.Component{
     })
   }
 
+  /*
+  Show the requested conference's details on button click.
+   */
   showConf = async () =>  {
-
 
     const contract = require('truffle-contract')
     const conferenceRegistry = contract(ConferenceRegistryContract)
     conferenceRegistry.setProvider(this.state.web3.currentProvider)
 
-    // Declaring this for later so we can chain functions on SimpleStorage.
-    var conferenceRegistryInstance
+    let conferenceRegistryInstance
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
@@ -94,15 +92,13 @@ class ConferenceList extends React.Component{
         
         return conferenceRegistryInstance.getConference(this.state.searchTitle, this.state.searchYear, {from: accounts[0]})
       }).then((result) => {
-          // Update state with the result.
-       
         //console.log(result)
 
         let address = result[0];
         let cleanTitle = Web3.utils.toAscii('0' + result[2].split('0')[1]); 
         let year = result[3].c[0];
         let hash = multihash.getMultihashFromContractResponse([result[4].toString(), result[5].c[0], result[6].c[0].toString()])
-
+        //0x836bf7a28d737449f0669743052ccc3bca9a3eefbc80d58a7719ba6bae5c6006 18 32
         //console.log(cleanTitle)
         //console.log(hash.toString())
 
@@ -115,7 +111,9 @@ class ConferenceList extends React.Component{
 
  
 
-
+  /*
+  Creates arbitrary number of conference Listings, depending on button-clicks.
+   */
 	render(){
     const children = [];
 

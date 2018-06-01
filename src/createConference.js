@@ -146,10 +146,14 @@ class CreateConference extends Component {
         // storehash.methods.create(formD ...).send() ...
         // 
         conferenceRegistry.deployed().then(instance => {
-          instance.create(formData.Title, formData.Year, digest, hashFunction, size , { from: accounts[0] , gasLimit: 6385876}).then(transactionHash => {
-          console.log(transactionHash.tx);
+
+          // first parameter is admin address, could be done more elegant?
+          instance.create(accounts[0], formData.Title, formData.Year, digest, hashFunction, size , { from: accounts[0] , gasLimit: 6385876}).then(transactionHash => {
+          console.log("transactionHash:" + transactionHash);
           let tx = transactionHash.tx;
           this.setState({transactionHash: tx});
+
+          
           });
         })
       }) //await ipfs.add 
