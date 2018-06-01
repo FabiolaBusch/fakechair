@@ -16,7 +16,7 @@ contract ConferenceRegistry{
   	 * Events
   	 */
 
-  	event ConferenceCreated(string title, uint year, bytes32 id);
+  	event ConferenceCreated(address admin, string title, uint year, bytes32 id);
   	event ConferenceRemoved(string title, uint year);
 	
   	/**
@@ -60,6 +60,7 @@ contract ConferenceRegistry{
 		      conferences[_index].digest(),
 		      conferences[_index].hashFunction(),
 		      conferences[_index].size()
+
 		);
 	}
 
@@ -74,6 +75,7 @@ contract ConferenceRegistry{
 		      conferences[_index].digest(),
 		      conferences[_index].hashFunction(),
 		      conferences[_index].size()
+
 		);
 	}
 
@@ -95,16 +97,16 @@ contract ConferenceRegistry{
 	 */
 	
 
-	function create(string _title, uint _year, bytes32 _digest, uint8 _hashFunction, uint8 _size) public returns (uint) {
+	function create(address _admin, string _title, uint _year, bytes32 _digest, uint8 _hashFunction, uint8 _size) public returns (uint) {
 	
 		tempId = sha256(_title, _year);
 		require(conferenceIndex[tempId] == 0); // empty mapping is initialized to 0
 
 		// If unique, store index and push it to storage
 	  	conferenceIndex[tempId] = conferences.length;
-		conferences.push(new Conference(_title, _year, _digest, _hashFunction, _size));
+		conferences.push(new Conference(_admin, _title, _year, _digest, _hashFunction, _size));
 
-	    emit ConferenceCreated(_title, _year, tempId);
+	    emit ConferenceCreated(_admin, _title, _year, tempId);
 	    return conferences.length;
 	}
 

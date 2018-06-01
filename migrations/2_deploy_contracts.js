@@ -1,7 +1,7 @@
 //var User = artifacts.require("./User.sol");
 var ConferenceRegistry = artifacts.require("./ConferenceRegistry.sol");
 var Conference = artifacts.require("./Conference.sol")
-var Contract = artifacts.require("./Contract.sol")
+
 
 
 var id = 0;
@@ -11,12 +11,12 @@ var year = 0;
 var digest = 0;
 var hashFunction = 0;
 var size = 0;
+var admin = '0xD89C538b5593798e5c66927E1c8F87afeA15497E';
 
 var authors = [];
 var pcmembers = [];
 
 module.exports = function(deployer) {
-  deployer.deploy(Conference, title, year, digest, hashFunction, size);
+  deployer.deploy(Conference, admin, title, year, digest, hashFunction, size);
   deployer.deploy(ConferenceRegistry);
-  deployer.deploy(Contract);
 };

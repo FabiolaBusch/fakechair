@@ -27,18 +27,21 @@ contract Conference is RBACWithAdmin{
 	bytes32 public digest;
     uint8 public hashFunction;
     uint8 public size;
+    address public admin; 
+
 	
 
-	function Conference(string _title, uint _year, bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
+	function Conference(address _admin, string _title, uint _year, bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
 		require(bytes(_title).length <= 32);
 
-		addRole(msg.sender, ROLE_ADMIN);
+		addRole(_admin, ROLE_ADMIN);
 		id = sha256(_title, _year);
 		year = _year;
 		title = BytesUtils.stringToBytes32(_title); // need title of >= 32 chars, to fit in bytes32
 		digest = _digest;
 		hashFunction = _hashFunction;
 		size = _size;
+		admin = _admin;
 		emit IPFSEntrySet(_digest, _hashFunction, _size);
 	}
 
@@ -85,7 +88,7 @@ contract Conference is RBACWithAdmin{
 	 */
 	function addPCmembers(address[] addr) public {
 		for(uint256 i=0;i<addr.length;i++){
-			adminAddRole(addr[i], ROLE_PCMEMBER);
+			addRole(addr[i], ROLE_PCMEMBER);
 		}
 	}
 
