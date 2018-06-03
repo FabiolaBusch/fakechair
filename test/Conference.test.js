@@ -34,7 +34,7 @@ contract('Conference', function (accounts) {
 
   before(async () => {
     const { digest, hashFunction, size } = multihash.getBytes32FromMultiash(_ipfsHash);
-    mock = await Conference.new(_title, _year, digest, hashFunction, size, { from: admin });
+    mock = await Conference.new(admin, _title, _year, digest, hashFunction, size, { from: admin });
     await mock.addPCmembers(pcmembers, { from: admin });
     await mock.addAuthors([author3,author4, author5], { from: admin });
   });

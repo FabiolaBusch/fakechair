@@ -149,7 +149,7 @@ class CreateConference extends Component {
 
           // first parameter is admin address, could be done more elegant?
           instance.create(accounts[0], formData.Title, formData.Year, digest, hashFunction, size , { from: accounts[0] , gasLimit: 6385876}).then(transactionHash => {
-          console.log("transactionHash:" + transactionHash);
+          console.log(transactionHash);
           let tx = transactionHash.tx;
           this.setState({transactionHash: tx});
 

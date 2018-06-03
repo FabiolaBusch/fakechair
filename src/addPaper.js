@@ -16,6 +16,7 @@ class AddPaper extends React.Component{
 		this.state={
       alert: 'none',
       buffer:'',
+      ipfsHash:'',
       conferenceAddress: "",
       title: "",
       web3: null
@@ -74,7 +75,6 @@ class AddPaper extends React.Component{
       var events = conferenceInstance.PaperAdded();
       events.watch((error, result) => { 
         if(!error){
-          console.log('paperadded')
           return this.setState({alert: 'inline-block'})
         }
         else{
@@ -85,7 +85,8 @@ class AddPaper extends React.Component{
       // Add file to IPFS
       const ipfsHash = await ipfs.add(this.state.buffer)
       console.log(ipfsHash[0].hash );
-      const { digest, hashFunction, size } = multihash.getBytes32FromMultiash(this.state.ipfsHash[0].hash);
+      this.setState({ipfsHash: ipfsHash[0].hash })
+      const { digest, hashFunction, size } = multihash.getBytes32FromMultiash(ipfsHash[0].hash);
 
       // Add Paper to Conference Contract
       const transactionHash = await conferenceInstance.addPaper(accounts[0], this.state.title , digest, hashFunction, size, { from: accounts[0] , gasLimit: 6385876})
@@ -102,13 +103,15 @@ class AddPaper extends React.Component{
 	render(){
 		return(
 
-			<div className="row">
+      <div className="container">
+
         <input value={this.state.title} onChange={evt => this.setState({title: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Title"></input>
         <input value={this.state.conferenceAddress} onChange={evt => this.setState({conferenceAddress: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Conference Address"></input>
       
         <input type="file" className="form-control-file" id="exampleFormControlFile1" onChange={this.captureFile}></input>
         <Button bsStyle="primary" type="submit" onClick={this.addPaper}> Add Paper </Button>
 
+        <p>IPFS hash: {this.state.ipfsHash} </p>
 
 
         <div className="alert alert-success alert-dismissible fade show" role="alert"  style={{display: this.state.alert}}>
@@ -118,6 +121,7 @@ class AddPaper extends React.Component{
           <strong>Success!</strong> 
         </div>
       </div>
+
 		);
 	}
 }

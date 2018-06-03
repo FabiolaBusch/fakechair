@@ -72,6 +72,14 @@ contract Conference is RBACWithAdmin{
     	_;
   	}
 
+  	modifier onlyAuthor()
+	  {
+	    require(
+	      hasRole(msg.sender, ROLE_AUTHOR) 
+    	);
+    	_;
+  	}
+
   	/**
   	 * Public functions
   	 */
@@ -117,7 +125,7 @@ contract Conference is RBACWithAdmin{
   	}
 
 
-  	function addPaper(address _author, bytes32 _title, bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
+  	function addPaper(address _author, bytes32 _title, bytes32 _digest, uint8 _hashFunction, uint8 _size) onlyAuthor public {
 		paper.push(new Paper(_author, _title, _digest, _hashFunction, _size));
 
 		emit PaperAdded(_author, _digest, _hashFunction, _size);
