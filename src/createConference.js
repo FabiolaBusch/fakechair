@@ -185,10 +185,7 @@ render() {
                     <td>IPFS Hash # stored on Eth Contract</td>
                     <td>{this.state.newIpfsHash}</td>
                   </tr>
-                  <tr>
-                    <td>Ethereum Contract Address</td>
-                    <td>{this.state.ethAddress}</td>
-                  </tr>
+
 
                   <tr>
                     <td>Tx Hash # </td>

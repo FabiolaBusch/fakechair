@@ -88,8 +88,7 @@ class ConferenceList extends React.Component{
     this.state.web3.eth.getAccounts((error, accounts) => {
       conferenceRegistry.deployed().then((instance) => {
         conferenceRegistryInstance = instance
-
-        
+ 
         return conferenceRegistryInstance.getConference(this.state.searchTitle, this.state.searchYear, {from: accounts[0]})
       }).then((result) => {
         //console.log(result)
