@@ -2,6 +2,8 @@ pragma solidity ^0.4.21;
 
 import './RBACWithAdmin.sol';
 import './utils/BytesUtils.sol';
+import './Paper.sol';
+
 
 /**
  * @title Conference
@@ -13,8 +15,10 @@ import './utils/BytesUtils.sol';
  */
 contract Conference is RBACWithAdmin{
 
-	event IPFSEntrySet (bytes32 digest, uint8 hashFunction, uint8 size);
+	event ConferenceAdded (bytes32 digest, uint8 hashFunction, uint8 size);
+	event PaperAdded (address author, bytes32 digest, uint8 hashFunction, uint8 size);
 
+	Paper[] public paper;
 
 	// ROLE_ADMIN already part of RBAC
 	string constant ROLE_AUTHOR = "author";
@@ -42,7 +46,7 @@ contract Conference is RBACWithAdmin{
 		hashFunction = _hashFunction;
 		size = _size;
 		admin = _admin;
-		emit IPFSEntrySet(_digest, _hashFunction, _size);
+		emit ConferenceAdded(_digest, _hashFunction, _size);
 	}
 
 	/**
@@ -111,6 +115,33 @@ contract Conference is RBACWithAdmin{
 	    // remove the authors role
 	    removeRole(addr, ROLE_AUTHOR);
   	}
+
+
+  	function addPaper(address _author, bytes32 _title, bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
+		paper.push(new Paper(_author, _title, _digest, _hashFunction, _size));
+
+		emit PaperAdded(_author, _digest, _hashFunction, _size);
+	}
+
+	function getPaperByIndex(uint8 _index) public constant 
+		returns (Paper, address, bytes32, bytes32, uint8, uint8){
+
+		return (
+		      paper[_index],
+		      paper[_index].author(),
+		      paper[_index].title(),
+		      paper[_index].digest(),
+		      paper[_index].hashFunction(),
+		      paper[_index].size()
+
+		);
+	}
+
+	// getPaper(title, author)
+
+	function getAllPaper() public constant returns (Paper[]){
+	    return paper;
+	}
 
 
 }
