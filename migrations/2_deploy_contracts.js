@@ -1,6 +1,8 @@
 //var User = artifacts.require("./User.sol");
 var ConferenceRegistry = artifacts.require("./ConferenceRegistry.sol");
 var Conference = artifacts.require("./Conference.sol")
+var Paper = artifacts.require("./Paper.sol")
+
 
 
 
@@ -19,4 +21,5 @@ var pcmembers = [];
 module.exports = function(deployer) {
   deployer.deploy(Conference, admin, title, year, digest, hashFunction, size);
   deployer.deploy(ConferenceRegistry);
+  deployer.deploy(Paper, admin, title,  digest, hashFunction, size);
 };
