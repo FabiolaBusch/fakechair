@@ -1,0 +1,61 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Review",
+    "description": "Review form.",
+    "type": "object",
+    "properties": {
+      "Paper Address": {
+        "type": "string"
+      }, 
+      "Paper Author": {
+        "type": "string", 
+      },
+      "PC Member": {
+        "type": "string",
+      },
+      "Evaluation": {
+        "type": "object",
+        
+        "properties": {
+          "text":{
+            "type": "string",
+            "description": " Enter the text for the field Overall evaluation below. This field is required."
+          },
+          "score": {
+            "type": "integer",
+            "minimum": -3,
+            "maximum": 3,
+            "description": "3 strong accept, 2 accept, 1 weak accept, 0 borderline paper, -1 weak reject,-2 reject, -3 strong reject"
+          }
+        }
+        
+      },
+      "Confidence": {
+        "type": "integer",
+        "description": " 5 (expert), 4 (high), 3 (medium), 2 (low), 1 (none)",
+        "minimum": 1,
+        "maximum": 5
+      }, 
+      "Remarks": {
+        "type": "string", 
+        "description": "Confidential remarks for the program committee" 
+      },
+      "Reviewer": {
+        "type": "object",
+        "properties": {
+          "First Name": {
+            "type": "string"
+          },
+          "Last Name": {
+            "type": "string"
+          },
+          "E-Mail": {
+            "type": "string"
+          },
+
+        }
+      }
+     
+    },
+    "required": ["Paper Address", "Paper Author","Reviewer", "Evaluation", "Confidence"]
+  }

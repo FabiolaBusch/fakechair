@@ -5,7 +5,6 @@ import NavBar from './navbar'
 import MainContent from './maincontent'
 import Footer from './footer'
 
-
 //import './css/oswald.css'
 //import './css/open-sans.css'
 //import './css/pure-min.css'
@@ -16,9 +15,11 @@ class App extends Component {
 	render(){
 		return(
 			<div className="component-app">
-				<NavBar />
-				<MainContent />
-				<Footer />
+
+			<NavBar />
+			<MainContent/>
+			<Footer />
+
 			</div>
 		);
 	}	

@@ -164,48 +164,67 @@ class CreateConference extends Component {
 render() {
 
   return (
-    <div>
-    <Form schema={this.schema}
-          onChange={this.log("changed")}
-          onSubmit={this.onSubmitETHIPFS}
-          onError={this.log("errors")} />
 
-     <Button onClick={this.onClick}> Get Transaction Receipt </Button>
+ <div className="panel-group">
+  <div className="panel panel-default">
+    <div className="panel-heading">
+      <h4 className="panel-title">
+        <a data-toggle="collapse" href="#collapse1">Create a new Conference</a>
+      </h4>
+    </div>
+    <div id="collapse1" className="panel-collapse collapse">
+      <div className="panel-body">
 
-  <Table bordered responsive>
-                <thead>
-                  <tr>
-                    <th>Tx Receipt Category</th>
-                    <th>Values</th>
-                  </tr>
-                </thead>
-               
-                <tbody>
-                  <tr>
-                    <td>IPFS Hash # stored on Eth Contract</td>
-                    <td>{this.state.newIpfsHash}</td>
-                  </tr>
+          <Form schema={this.schema}
+                onChange={this.log("changed")}
+                onSubmit={this.onSubmitETHIPFS}
+                onError={this.log("errors")} />
+
+           <Button onClick={this.onClick}> Get Transaction Receipt </Button>
+
+        <Table bordered responsive>
+                      <thead>
+                        <tr>
+                          <th>Tx Receipt Category</th>
+                          <th>Values</th>
+                        </tr>
+                      </thead>
+                     
+                      <tbody>
+                        <tr>
+                          <td>IPFS Hash # stored on Eth Contract</td>
+                          <td>{this.state.newIpfsHash}</td>
+                        </tr>
 
 
-                  <tr>
-                    <td>Tx Hash # </td>
-                    <td>{this.state.transactionHash}</td>
-                  </tr>
+                        <tr>
+                          <td>Tx Hash # </td>
+                          <td>{this.state.transactionHash}</td>
+                        </tr>
 
-                  <tr>
-                    <td>Block Number # </td>
-                    <td>{this.state.blockNumber}</td>
-                  </tr>
+                        <tr>
+                          <td>Block Number # </td>
+                          <td>{this.state.blockNumber}</td>
+                        </tr>
 
-                  <tr>
-                    <td>Gas Used</td>
-                    <td>{this.state.gasUsed}</td>
-                  </tr>
-                
-                </tbody>
-            </Table>
+                        <tr>
+                          <td>Gas Used</td>
+                          <td>{this.state.gasUsed}</td>
+                        </tr>
+                      
+                      </tbody>
+                  </Table>
+
+      </div>
+      <div className="panel-footer">Panel Footer</div>
+    </div>
+  </div>
+</div> 
+
+
+
         
-     </div>     
+   
     );
   }
 

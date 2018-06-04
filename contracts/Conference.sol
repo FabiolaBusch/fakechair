@@ -145,10 +145,8 @@ contract Conference is RBACWithAdmin{
 		);
 	}
 
-	// getPaper(title, author)
-
-	function getAllPaper() public constant returns (Paper[]){
-	    return paper;
+	function getPaperLength() public constant returns (uint){
+	    return paper.length;
 	}
 
 
