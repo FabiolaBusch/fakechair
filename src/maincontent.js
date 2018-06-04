@@ -45,9 +45,10 @@ class MainContent extends React.Component{
           <h2 className="mt-5">Write a Review</h2>
           <CreateReview />
           <hr></hr>
-
-          <h1 className="mt-5">Create a new Conference</h1>
+          
+          <h2 className="mt-5">Create a Conference</h2>
           <CreateConference />
+          
         
         </main>
     );

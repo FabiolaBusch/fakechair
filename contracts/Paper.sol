@@ -24,14 +24,14 @@ contract Paper{
 		size = _size;
 	}
 
-	
+
   	/**
   	 * Public functions
   	 */
 
-	function addReview(address _reviewer, int8 _score, bytes32 _title, bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
-		reviews.push(new Review(_reviewer, _score, _title,_digest, _hashFunction,  _size));
-		emit ReviewAdded(_reviewer, _score, _title,_digest, _hashFunction,  _size;
+	function addReview(address _reviewer, int8 _score, bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
+		reviews.push(new Review(_reviewer, _score, _digest, _hashFunction,  _size));
+		emit ReviewAdded(_reviewer, _score,_digest, _hashFunction,  _size);
 	}
 
 	function getReviewByIndex(uint _index) public constant returns (Review, address, int8, bytes32, uint8, uint8){
@@ -39,7 +39,6 @@ contract Paper{
 		      reviews[_index],
 		      reviews[_index].reviewer(),
 		      reviews[_index].score(),
-		      reviews[_index].title(),
 		      reviews[_index].digest(),
 		      reviews[_index].hashFunction(),
 		      reviews[_index].size()

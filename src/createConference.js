@@ -120,7 +120,7 @@ class CreateConference extends Component {
         } //catch
     }; //onClick
 
-  onSubmitETHIPFS = async ({formData}) => {
+  onSubmit = async ({formData}) => {
     // create buffer from javascript object
     // https://stackoverflow.com/questions/41951307/convert-a-json-object-to-buffer-and-buffer-to-json-object-back/
      const buffer = Buffer.from(JSON.stringify(formData));
@@ -164,62 +164,54 @@ class CreateConference extends Component {
 render() {
 
   return (
-
- <div className="panel-group">
-  <div className="panel panel-default">
-    <div className="panel-heading">
-      <h4 className="panel-title">
-        <a data-toggle="collapse" href="#collapse1">Create a new Conference</a>
-      </h4>
+  <div className="card">
+    <div className="card-header" id="headingOne">
+      <h1 className="mb-0">
+        <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          Create a new Conference
+        </button>
+      </h1>
     </div>
-    <div id="collapse1" className="panel-collapse collapse">
-      <div className="panel-body">
 
-          <Form schema={this.schema}
-                onChange={this.log("changed")}
-                onSubmit={this.onSubmitETHIPFS}
-                onError={this.log("errors")} />
-
-           <Button onClick={this.onClick}> Get Transaction Receipt </Button>
-
+    <div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div className="card-body">
+        <Form schema={this.schema} onChange={this.log("changed")} onSubmit={this.onSubmit} onError={this.log("errors")} />
+        <Button onClick={this.onClick}> Get Transaction Receipt </Button>
         <Table bordered responsive>
-                      <thead>
-                        <tr>
-                          <th>Tx Receipt Category</th>
-                          <th>Values</th>
-                        </tr>
-                      </thead>
-                     
-                      <tbody>
-                        <tr>
-                          <td>IPFS Hash # stored on Eth Contract</td>
-                          <td>{this.state.newIpfsHash}</td>
-                        </tr>
+          <thead>
+            <tr>
+              <th>Tx Receipt Category</th>
+              <th>Values</th>
+            </tr>
+          </thead>
+         
+          <tbody>
+            <tr>
+              <td>IPFS Hash # stored on Eth Contract</td>
+              <td>{this.state.newIpfsHash}</td>
+            </tr>
 
 
-                        <tr>
-                          <td>Tx Hash # </td>
-                          <td>{this.state.transactionHash}</td>
-                        </tr>
+            <tr>
+              <td>Tx Hash # </td>
+              <td>{this.state.transactionHash}</td>
+            </tr>
 
-                        <tr>
-                          <td>Block Number # </td>
-                          <td>{this.state.blockNumber}</td>
-                        </tr>
+            <tr>
+              <td>Block Number # </td>
+              <td>{this.state.blockNumber}</td>
+            </tr>
 
-                        <tr>
-                          <td>Gas Used</td>
-                          <td>{this.state.gasUsed}</td>
-                        </tr>
-                      
-                      </tbody>
-                  </Table>
-
+            <tr>
+              <td>Gas Used</td>
+              <td>{this.state.gasUsed}</td>
+            </tr>
+          </tbody>
+        </Table>
       </div>
-      <div className="panel-footer">Panel Footer</div>
     </div>
   </div>
-</div> 
+
 
 
 
@@ -231,3 +223,58 @@ render() {
 }
 
 export default CreateConference;
+
+/*
+
+
+<div className="container">
+ <div className="panel-group">
+  <div className="panel panel-default">
+    <div className="panel-heading">
+      <h4 className="panel-title">
+        <a data-toggle="collapse" href="#collapse1">Create a new Conference</a>
+      </h4>
+    </div>
+    <div id="collapse1" className="panel-collapse collapse">
+      <div className="panel-body">
+        <Form schema={this.schema} onChange={this.log("changed")} onSubmit={this.onSubmit} onError={this.log("errors")} />
+        <Button onClick={this.onClick}> Get Transaction Receipt </Button>
+        <Table bordered responsive>
+          <thead>
+            <tr>
+              <th>Tx Receipt Category</th>
+              <th>Values</th>
+            </tr>
+          </thead>
+         
+          <tbody>
+            <tr>
+              <td>IPFS Hash # stored on Eth Contract</td>
+              <td>{this.state.newIpfsHash}</td>
+            </tr>
+
+
+            <tr>
+              <td>Tx Hash # </td>
+              <td>{this.state.transactionHash}</td>
+            </tr>
+
+            <tr>
+              <td>Block Number # </td>
+              <td>{this.state.blockNumber}</td>
+            </tr>
+
+            <tr>
+              <td>Gas Used</td>
+              <td>{this.state.gasUsed}</td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
+    </div>
+  </div>
+</div> 
+</div>
+
+
+ */

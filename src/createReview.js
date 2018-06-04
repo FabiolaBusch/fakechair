@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import ipfs from './utils/ipfs';
 import Form from "react-jsonschema-form";
 import web3 from './utils/web3'
-import ConferenceRegistryContract from '../build/contracts/ConferenceRegistry.json'
+import PaperContract from '../build/contracts/Paper.json'
 import multihash from './utils/multihash';
 
 
 import Button from 'react-bootstrap/lib/Button';
 
-import Table from 'react-bootstrap/lib/Table';
 
 class CreateReview extends Component {
 
@@ -29,13 +28,10 @@ class CreateReview extends Component {
     "description": "Review form.",
     "type": "object",
     "properties": {
-      "Paper Address": {
+      "PaperAddress": {
         "type": "string"
       }, 
-      "Paper Author": {
-        "type": "string", 
-      },
-      "PC Member": {
+      "PCMember": {
         "type": "string",
       },
       "Evaluation": {
@@ -68,10 +64,10 @@ class CreateReview extends Component {
       "Reviewer": {
         "type": "object",
         "properties": {
-          "First Name": {
+          "FirstName": {
             "type": "string"
           },
-          "Last Name": {
+          "LastName": {
             "type": "string"
           },
           "E-Mail": {
@@ -82,7 +78,7 @@ class CreateReview extends Component {
       }
      
     },
-    "required": ["Paper Address", "Paper Author","Reviewer", "Evaluation", "Confidence"]
+    "required": ["PaperAddress", "Reviewer", "Evaluation", "Confidence"]
   };
 
   log = (type) => console.log.bind(console, type);
@@ -108,42 +104,34 @@ class CreateReview extends Component {
         } //catch
     }; //onClick
 
-  onSubmitETHIPFS = async ({formData}) => {
+  onSubmit = async ({formData}) => {
     // create buffer from javascript object
     // https://stackoverflow.com/questions/41951307/convert-a-json-object-to-buffer-and-buffer-to-json-object-back/
      const buffer = Buffer.from(JSON.stringify(formData));
 
      //bring in user's metamask account address
       const accounts = await web3.eth.getAccounts();
-      console.log('Sending from Metamask account: ' + accounts[0]);
 
       const contract = require('truffle-contract')
-      const conferenceRegistry = contract(ConferenceRegistryContract);
-      conferenceRegistry.setProvider(web3.currentProvider);
-    
-    //save document to IPFS,return its hash#, and set hash# to state
-    //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add 
+      const paper = contract(PaperContract);
+      paper.setProvider(web3.currentProvider);
+
+      const paperInstance = await paper.at(formData.PaperAddress)
 
       await ipfs.add(buffer, (err, ipfsHash) => {
         
         //setState by setting ipfsHash to ipfsHash[0].hash 
         this.setState({ newIpfsHash:ipfsHash[0].hash });
         let { digest, hashFunction, size } = multihash.getBytes32FromMultiash(this.state.newIpfsHash);
-        
-        // gas limit: highes possible amount
-        // storehash.methods.create(formD ...).send() ...
-        // 
-        conferenceRegistry.deployed().then(instance => {
 
-          // first parameter is admin address, could be done more elegant?
-          instance.create(accounts[0], formData.Title, formData.Year, digest, hashFunction, size , { from: accounts[0] , gasLimit: 6385876}).then(transactionHash => {
+        paperInstance.addReview(accounts[0], formData.Evaluation.score, digest, hashFunction, size , { from: accounts[0] , gasLimit: 6385876}).then(transactionHash => {
           console.log(transactionHash);
           let tx = transactionHash.tx;
           this.setState({transactionHash: tx});
 
           
           });
-        })
+
       }) //await ipfs.add 
     }; //onSubmit
 
@@ -152,48 +140,30 @@ class CreateReview extends Component {
 render() {
 
   return (
-    <div>
-    <Form schema={this.schema}
+    
+<div className="card">
+    <div className="card-header" id="headingTwo">
+      <h1 className="mb-0">
+        <button className="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Create Review
+        </button>
+      </h1>
+    </div>
+    <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+      <div className="card-body">
+        <Form schema={this.schema}
           onChange={this.log("changed")}
-          onSubmit={this.onSubmitETHIPFS}
+          onSubmit={this.onSubmit}
           onError={this.log("errors")} />
 
-     <Button onClick={this.onClick}> Get Transaction Receipt </Button>
-
-  <Table bordered responsive>
-                <thead>
-                  <tr>
-                    <th>Tx Receipt Category</th>
-                    <th>Values</th>
-                  </tr>
-                </thead>
-               
-                <tbody>
-                  <tr>
-                    <td>IPFS Hash # stored on Eth Contract</td>
-                    <td>{this.state.newIpfsHash}</td>
-                  </tr>
+      </div>
+    </div>
+  </div>
 
 
-                  <tr>
-                    <td>Tx Hash # </td>
-                    <td>{this.state.transactionHash}</td>
-                  </tr>
 
-                  <tr>
-                    <td>Block Number # </td>
-                    <td>{this.state.blockNumber}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Gas Used</td>
-                    <td>{this.state.gasUsed}</td>
-                  </tr>
-                
-                </tbody>
-            </Table>
         
-     </div>     
+        
     );
   }
 

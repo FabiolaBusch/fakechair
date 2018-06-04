@@ -11,9 +11,9 @@ contract Review{
 
 	
 
-	function Review(address _reviewer, int8 _score, bytes32 _title, bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
+	function Review(address _reviewer, int8 _score, bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
 		score = _score;
-		author = _reviewer;
+		reviewer = _reviewer;
 		digest = _digest;
 		hashFunction = _hashFunction;
 		size = _size;
