@@ -46,7 +46,7 @@ Go into the project folder, you will find ''package.json''. Install all dependen
 $ npm install
 ```
 
-### Running
+### Run local dapp
 
 Start Ganache on port 7545.
 
@@ -69,6 +69,8 @@ Run node:
 ```
 $ npm run start 
 ```
+
+Log in to MetaMask, see [Truffle Pet-Shop tutorial](http://truffleframework.com/tutorials/pet-shop) how to import accounts from lokal network to the browser add on. Set MetaMask to lokal rpc server: **https://127.0.0.1:7545**
 
 
 
