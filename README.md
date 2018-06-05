@@ -112,4 +112,5 @@ truffle test
 * [eth-ipfs](https://github.com/mcchan1/eth-ipfs) - Uploading files to IPFS + Ethereum + react
 * [Truffle - Pet Shop](http://truffleframework.com/tutorials/pet-shop) - Getting started with truffle and smart contracts
 * [ES6 - JavaScript Improves](https://de.udacity.com/course/es6-javascript-improved--ud356) - Udacity Tutorial on promises, async/await, ...
+* [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-solidity) - OpenZeppelin, a framework to build secure smart contracts on Ethereum (RBAC)
 
