@@ -36,13 +36,39 @@ Download and install Ganache, a lokal Ethereum blockchain:
 
 * [Ganache](http://truffleframework.com/ganache/)
 
+Download and install IPFS, a peer-to-peer file storage system:
+
+* [IPFS](https://ipfs.io/docs/getting-started/)
+
 Go into the project folder, you will find ''package.json''. Install all dependencies. npm will look at the dependencies that are listed in that file and download the latest versions, using semantic versioning.
 
 ```
 $ npm install
 ```
 
-### Installing
+### Running
+
+Start Ganache on port 7545.
+
+Start IPFS daemon:
+
+```
+$ ipfs daemon 
+```
+
+**In project folder**
+
+Compile and migrate contracts to lokal blockchain:
+
+```
+$ truffle migrate --reset 
+```
+
+Run node:
+
+```
+$ npm run start 
+```
 
 
 
@@ -57,7 +83,7 @@ truffle test
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+
 
 ## Built With
 
@@ -72,7 +98,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* **Fabiola Buschendorf** [My Homepage](fabiolabuschendorf.com)
+* **Fabiola Buschendorf** [My Homepage](http://fabiolabuschendorf.com)
 
 
 ## License
