@@ -6,6 +6,8 @@ import Paper from './paper'
 import cleanTitle from './utils/cleanTitle'
 
 import Button from 'react-bootstrap/lib/Button';
+import Form from 'react-bootstrap/lib/Form';
+
 
 
 
@@ -90,9 +92,10 @@ class ShowPaper extends React.Component{
 		return(
 
 			<div>
+      <Form>
         <input value={this.state.conferenceAddress} onChange={evt => this.setState({conferenceAddress: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Conference Address"></input>
         <Button bsStyle="primary"  onClick={this.showPaper}> Show </Button>
-
+      </Form>
         <div className="row">
           {children}
 

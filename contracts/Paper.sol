@@ -29,7 +29,10 @@ contract Paper{
   	 * Public functions
   	 */
 
+  	 // Author cannot add own review. Any other methods are not specified (e.g. it is still possible for non-members to add a review).
 	function addReview(address _reviewer, int8 _score, bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
+		require(_reviewer != author);
+
 		reviews.push(new Review(_reviewer, _score, _digest, _hashFunction,  _size));
 		emit ReviewAdded(_reviewer, _score,_digest, _hashFunction,  _size);
 	}
@@ -48,7 +51,6 @@ contract Paper{
 	function getReviewsLength() public constant returns (uint){
 	    return reviews.length;
 	}
-
 
 
   	 // addReviewer

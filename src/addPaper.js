@@ -9,12 +9,13 @@ import Button from 'react-bootstrap/lib/Button';
 
 
 
+
 class AddPaper extends React.Component{
 
 	constructor(props){
 		super(props);
 		this.state={
-      alert: 'none',
+      transactionHash: '',
       buffer:'',
       ipfsHash:'',
       conferenceAddress: "",
@@ -47,30 +48,26 @@ class AddPaper extends React.Component{
 
 
 
-   convertToBuffer = async(reader) => {
+  convertToBuffer = async(reader) => {
       //file is converted to a buffer for upload to IPFS
         const buffer = await Buffer.from(reader.result);
       //set this buffer -using es6 syntax
         this.setState({buffer});
     };
 
-
-
-
- addPaper = async () => {
-
-    const contract = require('truffle-contract')
-    let conference = contract(ConferenceContract);
-    conference.setProvider(this.state.web3.currentProvider)
-
-    // Get accounts.
-    const accounts = await this.state.web3.eth.getAccounts() 
-
-    // get conference instance
-    const conferenceInstance = await conference.at(this.state.conferenceAddress)
-
+  addPaper = async () => {
     try{
-      
+
+      const contract = require('truffle-contract')
+      let conference = contract(ConferenceContract);
+      conference.setProvider(this.state.web3.currentProvider)
+
+      // Get accounts.
+      const accounts = await this.state.web3.eth.getAccounts() 
+
+      // get conference instance
+      const conferenceInstance = await conference.at(this.state.conferenceAddress)
+        
       // Event emitted if transaction successful
       var events = conferenceInstance.PaperAdded();
       events.watch((error, result) => { 
@@ -82,19 +79,21 @@ class AddPaper extends React.Component{
         }
       });
 
+  
       // Add file to IPFS
       const ipfsHash = await ipfs.add(this.state.buffer)
-      console.log(ipfsHash[0].hash );
+      
       this.setState({ipfsHash: ipfsHash[0].hash })
       const { digest, hashFunction, size } = multihash.getBytes32FromMultiash(ipfsHash[0].hash);
 
       // Add Paper to Conference Contract
       const transactionHash = await conferenceInstance.addPaper(accounts[0], this.state.title , digest, hashFunction, size, { from: accounts[0] , gasLimit: 6385876})
-      console.log(transactionHash);
+      this.setState({transactionHash: transactionHash.tx})
 
       events.stopWatching();
     }
     catch(error){
+      this.setState({transactionHash: 'Transaction failed. Only Authors can add papers to a conference.'})
       console.error(error)
     }
   }
@@ -111,15 +110,10 @@ class AddPaper extends React.Component{
         <input type="file" className="form-control-file" id="exampleFormControlFile1" onChange={this.captureFile}></input>
         <Button bsStyle="primary" type="submit" onClick={this.addPaper}> Add Paper </Button>
 
-        <p>IPFS hash: {this.state.ipfsHash} </p>
+        <p>IPFS Hash: {this.state.ipfsHash} </p>
+        <p>TX Hash: {this.state.transactionHash} </p>
 
 
-        <div className="alert alert-success alert-dismissible fade show" role="alert"  style={{display: this.state.alert}}>
-          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <strong>Success!</strong> 
-        </div>
       </div>
 
 		);

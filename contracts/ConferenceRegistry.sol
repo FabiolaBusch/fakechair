@@ -28,8 +28,6 @@ contract ConferenceRegistry{
   	// Maps unique Id to index in conference array
   	mapping(bytes32 => uint) public conferenceIndex;
   	bytes32 tempId;
-  	string lastIpfsHash;
-
 
   	/**
   	 * Public functions
@@ -151,14 +149,6 @@ contract ConferenceRegistry{
 	    return conferences.length;
 	}*/
 
-	function sendHash(string x) public {
-   		lastIpfsHash = x;
- 	}
-
- 	// was originally a string
- 	function getHash() public view returns (string x) {
-   		return lastIpfsHash;
- 	}
 
 
 

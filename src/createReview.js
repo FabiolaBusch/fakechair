@@ -6,9 +6,6 @@ import PaperContract from '../build/contracts/Paper.json'
 import multihash from './utils/multihash';
 
 
-import Button from 'react-bootstrap/lib/Button';
-
-
 class CreateReview extends Component {
 
     state = {
@@ -33,6 +30,7 @@ class CreateReview extends Component {
       }, 
       "PCMember": {
         "type": "string",
+        "default": "Helga Examplewoman"
       },
       "Evaluation": {
         "type": "object",
@@ -40,13 +38,15 @@ class CreateReview extends Component {
         "properties": {
           "text":{
             "type": "string",
-            "description": " Enter the text for the field Overall evaluation below. This field is required."
+            "description": " Enter the text for the field Overall evaluation below. This field is required.",
+            "default": "Very good!"
           },
           "score": {
             "type": "integer",
             "minimum": -3,
             "maximum": 3,
-            "description": "3 strong accept, 2 accept, 1 weak accept, 0 borderline paper, -1 weak reject,-2 reject, -3 strong reject"
+            "description": "3 strong accept, 2 accept, 1 weak accept, 0 borderline paper, -1 weak reject,-2 reject, -3 strong reject",
+            "default": 3
           }
         }
         
@@ -55,23 +55,28 @@ class CreateReview extends Component {
         "type": "integer",
         "description": " 5 (expert), 4 (high), 3 (medium), 2 (low), 1 (none)",
         "minimum": 1,
-        "maximum": 5
+        "maximum": 5,
+        "default": 5
       }, 
       "Remarks": {
         "type": "string", 
-        "description": "Confidential remarks for the program committee" 
+        "description": "Confidential remarks for the program committee",
+        "default": "Nothing to say."
       },
       "Reviewer": {
         "type": "object",
         "properties": {
           "FirstName": {
-            "type": "string"
+            "type": "string",
+            "default": "Luke"
           },
           "LastName": {
-            "type": "string"
+            "type": "string",
+            "default": "Delegateman"
           },
           "E-Mail": {
-            "type": "string"
+            "type": "string",
+            "default": "luke.delegateman@cool-university.com"
           },
 
         }
@@ -83,28 +88,9 @@ class CreateReview extends Component {
 
   log = (type) => console.log.bind(console, type);
 
-  onClick = async () => {
-    try{
-      this.setState({blockNumber:"waiting.."});
-      this.setState({gasUsed:"waiting..."});
-
-    //get Transaction Receipt in console on click
-    //See: https://web3js.readthedocs.io/en/1.0/web3-eth.html#gettransactionreceipt
-
-      await web3.eth.getTransactionReceipt(this.state.transactionHash, (err, txReceipt)=>{
-        console.log(err,txReceipt);
-        this.setState({txReceipt});
-      }); //await for getTransactionReceipt
-
-      await this.setState({blockNumber: this.state.txReceipt.blockNumber});
-      await this.setState({gasUsed: this.state.txReceipt.gasUsed});    
-      } //try
-      catch(error){
-          console.log(error);
-        } //catch
-    }; //onClick
 
   onSubmit = async ({formData}) => {
+    try{
     // create buffer from javascript object
     // https://stackoverflow.com/questions/41951307/convert-a-json-object-to-buffer-and-buffer-to-json-object-back/
      const buffer = Buffer.from(JSON.stringify(formData));
@@ -118,21 +104,21 @@ class CreateReview extends Component {
 
       const paperInstance = await paper.at(formData.PaperAddress)
 
-      await ipfs.add(buffer, (err, ipfsHash) => {
+      const ipfsHash = await ipfs.add(buffer)
         
-        //setState by setting ipfsHash to ipfsHash[0].hash 
-        this.setState({ newIpfsHash:ipfsHash[0].hash });
-        let { digest, hashFunction, size } = multihash.getBytes32FromMultiash(this.state.newIpfsHash);
+      //setState by setting ipfsHash to ipfsHash[0].hash 
+      this.setState({ newIpfsHash:ipfsHash[0].hash });
+      let { digest, hashFunction, size } = multihash.getBytes32FromMultiash(this.state.newIpfsHash);
+      console.log(formData.Evaluation.score)
 
-        paperInstance.addReview(accounts[0], formData.Evaluation.score, digest, hashFunction, size , { from: accounts[0] , gasLimit: 6385876}).then(transactionHash => {
-          console.log(transactionHash);
-          let tx = transactionHash.tx;
-          this.setState({transactionHash: tx});
+      const transactionHash = await paperInstance.addReview(accounts[0], formData.Evaluation.score, digest, hashFunction, size , { from: accounts[0] , gasLimit: 6385876})
 
-          
-          });
+      let tx = transactionHash.tx;
+      this.setState({transactionHash: tx});
+    }catch (error) {
+      console.error(error);
+    }
 
-      }) //await ipfs.add 
     }; //onSubmit
 
 
@@ -141,29 +127,23 @@ render() {
 
   return (
     
-<div className="card">
-    <div className="card-header" id="headingTwo">
-      <h1 className="mb-0">
-        <button className="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Create Review
-        </button>
-      </h1>
-    </div>
-    <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-      <div className="card-body">
-        <Form schema={this.schema}
-          onChange={this.log("changed")}
-          onSubmit={this.onSubmit}
-          onError={this.log("errors")} />
+      <div className="card">
+        <div className="card-header" id="headingTwo">
+          <h1 className="mb-0">
+            <button className="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Create Review
+            </button>
+          </h1>
+        </div>
+        <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+          <div className="card-body">
+            <Form schema={this.schema} onSubmit={this.onSubmit} onError={this.log("errors")} />
 
-      </div>
-    </div>
-  </div>
-
-
-
-        
-        
+            <p>IPFS Hash: {this.state.newIpfsHash} </p>
+            <p>TX Hash: {this.state.transactionHash} </p>
+          </div>
+        </div>
+      </div>   
     );
   }
 

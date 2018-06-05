@@ -83,6 +83,18 @@ contract Conference is RBACWithAdmin{
   	/**
   	 * Public functions
   	 */
+  	
+  	function getRole(address addr) public constant returns (string){
+  		if(hasRole(addr, ROLE_ADMIN)){
+  			return ROLE_ADMIN;
+  		}else if (hasRole(addr, ROLE_PCMEMBER)){
+  			return ROLE_PCMEMBER;
+  		}else if (hasRole(addr, ROLE_AUTHOR)){
+  			return ROLE_AUTHOR;
+  		}else{
+  			return "none";
+  		}
+	}
 
   	/**
   	 * @dev Allowed for admin/chair or PCmember, emits 'RoleAdded'
@@ -148,6 +160,8 @@ contract Conference is RBACWithAdmin{
 	function getPaperLength() public constant returns (uint){
 	    return paper.length;
 	}
+
+
 
 
 }
