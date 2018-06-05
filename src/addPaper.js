@@ -67,17 +67,6 @@ class AddPaper extends React.Component{
 
       // get conference instance
       const conferenceInstance = await conference.at(this.state.conferenceAddress)
-        
-      // Event emitted if transaction successful
-      var events = conferenceInstance.PaperAdded();
-      events.watch((error, result) => { 
-        if(!error){
-          return this.setState({alert: 'inline-block'})
-        }
-        else{
-          console.error(error)
-        }
-      });
 
   
       // Add file to IPFS
@@ -89,8 +78,6 @@ class AddPaper extends React.Component{
       // Add Paper to Conference Contract
       const transactionHash = await conferenceInstance.addPaper(accounts[0], this.state.title , digest, hashFunction, size, { from: accounts[0] , gasLimit: 6385876})
       this.setState({transactionHash: transactionHash.tx})
-
-      events.stopWatching();
     }
     catch(error){
       this.setState({transactionHash: 'Transaction failed. Only Authors can add papers to a conference.'})

@@ -55,26 +55,10 @@ class AddMember extends React.Component{
 
       //let isAddress = this.state.web3.utils.isAddress(this.state.newMember)
       //let hasRole = await conferenceInstance.hasRole.call(accounts[0], 'admin',  {from: accounts[0]})
-      //console.log("hasRole admin: " + hasRole)
-      //
-      // For success notification
-      var events = conferenceInstance.RoleAdded();
-      events.watch((error, result) => { 
-        if(!error){
-          //return this.setState({alert: 'inline-block'})
-          console.log(result)
-        }
-        else{
-          console.error(error)
-        }
-      });
-
-      
+      //console.log("hasRole admin: " + hasRole)      
 
       const transactionHash = await conferenceInstance.adminAddRole(this.state.newMember,this.state.role, {from: accounts[0], gasLimit: 6385876})
       this.setState({transactionHash: transactionHash.tx})
-
-      events.stopWatching();
     }
     catch(error){
       this.setState({transactionHash: 'Transaction failed. Only Admin can add members.'})
