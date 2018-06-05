@@ -70,7 +70,7 @@ Run node:
 $ npm run start 
 ```
 
-Log in to MetaMask, see [Truffle Pet-Shop tutorial](http://truffleframework.com/tutorials/pet-shop) how to import accounts from lokal network to the browser add on. Set MetaMask to lokal rpc server: **https://127.0.0.1:7545**
+Log in to MetaMask, see [Truffle Pet-Shop tutorial](http://truffleframework.com/tutorials/pet-shop) how to import accounts from lokal network to the browser add on. Set MetaMask to lokal rpc server: **http://127.0.0.1:7545**
 
 
 
