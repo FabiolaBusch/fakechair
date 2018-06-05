@@ -1,4 +1,4 @@
-# FakeChair - Bachelorthesis Project
+# FakeChair - Bachelor thesis Project
 
 A conference management and review tool on the Ethereum testnet Rinkeby. 
 
@@ -6,7 +6,7 @@ A conference management and review tool on the Ethereum testnet Rinkeby.
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-### Prerequisites for lokal development
+### Prerequisites for local development
 
 What things you need to install the software and how to install them.
 
@@ -21,13 +21,18 @@ This Project uses the node packet manager:
 ```
 $ sudo apt-get install npm 
 ```
-The dapp is build using the framework *Truffle*:
+The dapp is build using the dapp framework *Truffle*:
 
 ```
 $ npm install -g truffle 
 ```
 
-Download and install Ganache, a lokal Ethereum blockchain.
+Install MetaMask, a browser add-on to interact with an Ethereum blockchain via dapps:
+
+* [MetaMask](https://metamask.io/)
+
+
+Download and install Ganache, a lokal Ethereum blockchain:
 
 * [Ganache](http://truffleframework.com/ganache/)
 
@@ -56,12 +61,14 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
+* [Solidity](http://solidity.readthedocs.io/en/v0.4.24/) - Smart Contract programming language for Ethereum
 * [react-js](https://reactjs.org/docs/hello-world.html) - The web framework used
 * [npm](https://www.npmjs.com/) - Packet manager for JavaScript
-* [truffle](http://truffleframework.com/) - Development framework for Ethereum (react-box)
+* [truffle](http://truffleframework.com/) - Development framework for Ethereum (based on *react-box*)
+* [web3.js](https://web3js.readthedocs.io/en/1.0/getting-started.html) - JavaScript library for Ethereum contract interaction
 * [Bootstrap v4](https://getbootstrap.com/) - Front-end component library
 * [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form) - Creating forms from JSON schemas
- 
+
 
 ## Authors
 
