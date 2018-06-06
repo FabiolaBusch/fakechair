@@ -78,11 +78,11 @@ In your browser the dapp should now be running and working.
 
 ![Workflow Diagram](./workflow.png)
 
-[Business Process Model and Notation](https://de.wikipedia.org/wiki/Business_Process_Model_and_Notation)
+See: [Business Process Model and Notation](https://de.wikipedia.org/wiki/Business_Process_Model_and_Notation)
 
 ## Running the tests
 
-There are only a few automated tests for this system.
+There are only a few automated tests for this system, which are not up-to-date.
 
 ```
 truffle test
@@ -91,6 +91,7 @@ truffle test
 
 ## Deployment
 
+Currently this project is in deployment process. Hints on how to deploy it on an Ethereum testnet like Rinkeby can be found [here](http://truffleframework.com/tutorials/deploying-to-the-live-network).
 
 
 ## Built With
