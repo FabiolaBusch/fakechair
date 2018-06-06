@@ -42,7 +42,7 @@ class AddMember extends React.Component{
 
   addMember = async () => {
     try{
-
+      this.setState({transactionHash: '...waiting'})
       const contract = require('truffle-contract')
       let conference = contract(ConferenceContract);
       conference.setProvider(this.state.web3.currentProvider)
@@ -74,8 +74,14 @@ class AddMember extends React.Component{
 			<div className="container">
         <p>Add a "pcmember" or an "author" using her address to an existing conference.</p>
         <br></br>
-        <input value={this.state.role} onChange={evt => this.setState({role: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="New members role"></input>
-        <input value={this.state.address} onChange={evt => this.setState({address: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Conference Contract Address"></input>
+         <div className="form-group">
+          <label >Select a role:</label>
+          <select onChange={evt => this.setState({role: evt.target.value})} className="form-control" id="sel1">
+            <option>author</option>
+            <option>pcmember</option>
+          </select>
+        </div> 
+         <input value={this.state.address} onChange={evt => this.setState({address: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Conference Contract Address"></input>
 
 
         <input value={this.state.newMember} onChange={evt => this.setState({newMember: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="New Members Address"></input>
@@ -90,3 +96,5 @@ class AddMember extends React.Component{
 
 
 export default AddMember
+
+//<input value={this.state.role} onChange={evt => this.setState({role: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="New members role"></input>
