@@ -13,7 +13,7 @@ What things you need to install the software and how to install them.
 Get the project:
 
 ```
-$ git clone https://gitlab.gwdg.de/f.buschendorf/bachelor-thesis.git 
+$ git clone https://gitlab.gwdg.de/f.buschendorf/fakechair 
 ```
 
 This Project uses the node packet manager:
