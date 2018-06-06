@@ -15,12 +15,13 @@ class AddMember extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
-      role:"",
+      role:"author",
       newMember:"", 
       address: '', 
       web3: null
 		};
-	}
+  }
+
 
   componentWillMount() {
     // Get network provider and web3 instance.
@@ -56,6 +57,7 @@ class AddMember extends React.Component{
       //let isAddress = this.state.web3.utils.isAddress(this.state.newMember)
       //let hasRole = await conferenceInstance.hasRole.call(accounts[0], 'admin',  {from: accounts[0]})
       //console.log("hasRole admin: " + hasRole)      
+      console.log(this.state.role)
 
       const transactionHash = await conferenceInstance.adminAddRole(this.state.newMember,this.state.role, {from: accounts[0], gasLimit: 6385876})
       this.setState({transactionHash: transactionHash.tx})
@@ -66,26 +68,33 @@ class AddMember extends React.Component{
     }
   }
 
+  setRole = (event) => {
+    this.setState({role: event.target.value});
+    console.log(this.state.role)
+    console.log('role was set')
+  }
+
 
 
 	render(){
 		return(
 
 			<div className="container">
-        <p>Add a "pcmember" or an "author" using her address to an existing conference.</p>
+        <p>Add a PC member or an author using her address to an existing conference.</p>
         <br></br>
-         <div className="form-group">
-          <label >Select a role:</label>
-          <select onChange={evt => this.setState({role: evt.target.value})} className="form-control" id="sel1">
-            <option>author</option>
-            <option>pcmember</option>
-          </select>
-        </div> 
-         <input value={this.state.address} onChange={evt => this.setState({address: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Conference Contract Address"></input>
-
-
-        <input value={this.state.newMember} onChange={evt => this.setState({newMember: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="New Members Address"></input>
-        <Button bsStyle="primary" type="submit" onClick={this.addMember}> Add Member </Button>
+        
+        
+          <div className="form-group">
+            <label >Select a role:</label>
+            <select value={this.state.role} onChange={evt => this.setState({role: evt.target.value})} className="form-control">
+              <option value="author">Author</option>
+              <option value="pcmember">PC Member</option>
+            </select>
+          </div> 
+          <input value={this.state.address} onChange={evt => this.setState({address: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Conference Contract Address"></input>
+          <input value={this.state.newMember} onChange={evt => this.setState({newMember: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="New Members Address"></input>
+          <Button bsStyle="primary" type="submit" onClick={this.addMember}> Add Member </Button>
+          
 
         <p>TX Hash: {this.state.transactionHash}</p>
  
