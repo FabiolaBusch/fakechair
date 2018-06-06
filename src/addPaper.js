@@ -57,6 +57,7 @@ class AddPaper extends React.Component{
 
   addPaper = async () => {
     try{
+      this.setState({transactionHash: '... waiting'})
 
       const contract = require('truffle-contract')
       let conference = contract(ConferenceContract);

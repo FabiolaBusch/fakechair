@@ -91,6 +91,7 @@ class CreateReview extends Component {
 
   onSubmit = async ({formData}) => {
     try{
+      this.setState({ transactionHash: '... waiting' });
     // create buffer from javascript object
     // https://stackoverflow.com/questions/41951307/convert-a-json-object-to-buffer-and-buffer-to-json-object-back/
      const buffer = Buffer.from(JSON.stringify(formData));

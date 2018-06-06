@@ -47,6 +47,7 @@ class ShowPaper extends React.Component{
   Show the requested conference's details on button click.
    */
   showPaper = async () =>  {
+    this.setState({paperLength: '...waiting'})
 
     const contract = require('truffle-contract')
     let conference = contract(ConferenceContract);
@@ -91,7 +92,8 @@ class ShowPaper extends React.Component{
 
 		return(
 
-			<div>
+			<div className='container'>
+      <p>No. of paper: {this.state.paperLength}</p>
       <Form>
         <input value={this.state.conferenceAddress} onChange={evt => this.setState({conferenceAddress: evt.target.value})} type="text" className="form-control" id="formGroupExampleInput" placeholder="Conference Address"></input>
         <Button bsStyle="primary"  onClick={this.showPaper}> Show </Button>

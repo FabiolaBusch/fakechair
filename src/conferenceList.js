@@ -44,6 +44,8 @@ class ConferenceList extends React.Component{
   showConferences = async () =>  {
     try{
 
+      this.setState({cleanTitles: ['... waiting','... waiting']})
+
       const contract = require('truffle-contract')
       const conferenceRegistry = contract(ConferenceRegistryContract)
       conferenceRegistry.setProvider(this.state.web3.currentProvider)

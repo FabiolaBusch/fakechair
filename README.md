@@ -74,6 +74,10 @@ Log in to MetaMask, copy the mnemonic and import it to MetaMask. This will enabl
 
 In your browser the dapp should now be running and working. 
 
+## Workflow
+
+![Workflow Diagram](./workflow.png)
+
 ## Running the tests
 
 There are only a few automated tests for this system.
