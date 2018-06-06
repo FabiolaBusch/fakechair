@@ -32,7 +32,7 @@ Install MetaMask, a browser add-on to interact with an Ethereum blockchain via d
 * [MetaMask](https://metamask.io/)
 
 
-Download and install Ganache, a lokal Ethereum blockchain:
+Download and install Ganache, a local Ethereum blockchain:
 
 * [Ganache](http://truffleframework.com/ganache/)
 
