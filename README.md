@@ -78,6 +78,8 @@ In your browser the dapp should now be running and working.
 
 ![Workflow Diagram](./workflow.png)
 
+[Business Process Model and Notation](https://de.wikipedia.org/wiki/Business_Process_Model_and_Notation)
+
 ## Running the tests
 
 There are only a few automated tests for this system.
