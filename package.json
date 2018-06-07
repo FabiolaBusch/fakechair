@@ -115,5 +115,6 @@
     "url": "https://gitlab.gwdg.de/f.buschendorf/fakechair"
   },
   "author": "Fabiola Buschendorf",
-  "license": "GNU GPLv3"
+  "license": "GNU GPLv3",
+  "homepage": "http://fakechair.fabiolabuschendorf.de/"
 }
