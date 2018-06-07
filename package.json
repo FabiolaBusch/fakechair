@@ -46,6 +46,7 @@
     "style-loader": "0.13.1",
     "truffle-contract": "^1.1.8",
     "truffle-solidity-loader": "0.0.8",
+    "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "0.5.7",
     "web3": "^1.0.0-beta.34",
     "webpack": "1.14.0",
