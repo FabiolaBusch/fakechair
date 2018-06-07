@@ -9,7 +9,6 @@ module.exports = {
       network_id: 4, // Rinkeby
       host: "127.0.0.1",
       port: 8546,   // Different than the default below
-      from: "0x4b1b13B69B85D6EdDBC0Be7A194E2edb6E05340a"
     }
   },
   rpc: {
