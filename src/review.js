@@ -7,7 +7,7 @@ class Review extends React.Component{
 
 		return(
 
-      <li><a target="_blank" href={ 'http://localhost:8080/ipfs/' + this.props.hash }>Review {this.props.number}: Score: {this.props.score} </a></li>
+      <li><a target="_blank" href={ 'https://ipfs.io/ipfs/' + this.props.hash }>Review {this.props.number}: Score: {this.props.score} </a></li>
 		);
 	}
 }

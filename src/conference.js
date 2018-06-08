@@ -28,7 +28,7 @@ class Conference extends React.Component{
 		    <p className="card-text">Contract Address: {this.props.address}</p>
 		    <p className="card-text">Your Role: {this.props.role}</p>
 
-		    <a target="_blank" href={ 'http://localhost:8080/ipfs/' + this.props.hash } className="card-link">See Details</a>
+		    <a target="_blank" href={ 'https://ipfs.io/ipfs/' + this.props.hash } className="card-link">See Details</a>
 		  </div>
 		</div>
        );

@@ -86,7 +86,7 @@ class Paper extends React.Component{
             {this.props.title}
           </div>
           <div className="card-body">
-            <a target="_blank" href={ 'http://localhost:8080/ipfs/' + this.props.hash } className="card-link">Read Paper</a>
+            <a target="_blank" href={ 'https://ipfs.io/ipfs/' + this.props.hash } className="card-link">Read Paper</a>
             <p className="card-text">As part of: {this.props.confTitle}</p>
             <p className="card-text">Address: {this.props.address}</p>
 
