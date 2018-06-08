@@ -138,7 +138,7 @@ This will create the folder `build_webpack/` with a single `index.html` file and
 
 ## Live Demo
 
-A live demo is available at [fakechair.fabiolabuschendorf.de](fakechair.fabiolabuschendorf.de) 
+A live demo is available at [http://fakechair.fabiolabuschendorf.de](fakechair.fabiolabuschendorf.de) 
 
 This dapp is migrated to the Rinkeby testnet. Log in to **MetaMask** in your browser, select the Network Rinkeby and create an account with some test-ether (generate them in the [faucet](https://www.rinkeby.io/)). To access any files on IPFS, you need to have 
 
