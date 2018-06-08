@@ -1,2 +1,5 @@
 build/*
 node_modules/*
+build_webpack/*
+config/npm-debug.log
+

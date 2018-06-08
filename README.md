@@ -1,10 +1,16 @@
+
 # FakeChair - Bachelor thesis Project
 
 A conference management and review tool on the Ethereum testnet Rinkeby. 
+There are two ways to use this app:
+
+1. [Deploy locally](#prerequisites-for-local-development)
+2. [Access the live demo](#live-demo)
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
 
 ### Prerequisites for local development
 
@@ -46,7 +52,7 @@ Go into the project folder, you will find `package.json`. Install all dependenci
 $ npm install
 ```
 
-### Run local dapp
+## Run dapp local
 
 Start Ganache on port `7545`.
 
@@ -56,9 +62,7 @@ Start IPFS daemon:
 $ ipfs daemon 
 ```
 
-**In project folder**
-
-Compile and migrate contracts to the local blockchain:
+**In project folder**: Compile and migrate contracts to the local blockchain:
 
 ```
 $ truffle migrate --reset 
@@ -74,24 +78,74 @@ Log in to MetaMask: copy the mnemonic from Ganache UI and import it to MetaMask.
 
 In your browser the dapp should now be running and working. 
 
-## Workflow
+## Usage Workflow
 
 ![Workflow Diagram](./workflow.png)
 
 See: [Business Process Model and Notation](https://de.wikipedia.org/wiki/Business_Process_Model_and_Notation)
 
-## Running the tests
+### Running the tests
 
 There are only a few automated tests for this system, which are not up-to-date.
 
 ```
-truffle test
+$ truffle test
 ```
 
+## Remote Deployment
 
-## Deployment
+This dapp is deployed on the Rinkeby testnet.
+### Deploy contracts to testnet
+A full description on how to deploy it on an Ethereum testnet like Rinkeby can be found [here](http://truffleframework.com/tutorials/deploying-to-the-live-network). However, I added a few details:
 
-Currently this project is in deployment process. Hints on how to deploy it on an Ethereum testnet like Rinkeby can be found [here](http://truffleframework.com/tutorials/deploying-to-the-live-network).
+First, you need to download the whole Rinkeby blockchain. **This can take hours!** Let it run over night. For deployment, `truffle.js` assumes an open [RPC](https://ethereumbuilders.gitbooks.io/guide/content/en/ethereum_json_rpc.html) endpoint running on on localhost, port `8546`: 
+
+```
+ $ geth --rinkeby --rpc --rpcport 8546
+```
+
+If the blockchain is synchronised, calling `eth.syncing` in the geth console returns `true` (Ubuntu)
+
+```
+$ geth --datadir=$HOME/.rinkeby attach ipc:$HOME/.ethereum/rinkeby/geth.ipc console
+Welcome to the Geth JavaScript console!
+
+instance: Geth/v1.8.2-stable-b8b9f7f4/linux-amd64/go1.9.4
+coinbase: 0x2c0a8be92c61efa92edb1dc478a58ee2a0e07eb1
+at block: 2420815 (Thu, 07 Jun 2018 16:38:24 CEST)
+ datadir: /home/fabiola/.ethereum/rinkeby
+ modules: admin:1.0 clique:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0
+
+> eth.syncing
+true
+```
+Migrate the contracts to this network:
+
+```
+$ truffle migrate --network live
+```
+
+The contracts are now accessible via Rinkeby.
+
+### Build UI source code
+
+This project is build with webpack. To build a compressed production version, run
+
+```
+$ npm run build
+```
+This will create the folder `build_webpack/` with a single `index.html` file and a `/static` folder containing a minified .css and .js file. Put this content on a webserver. 
+
+## Live Demo
+
+A live demo is available at fakechair.fabiolabuschendorf.de 
+
+This dapp is migrated to the Rinkeby testnet. All you need is an account on Rinkeby with some test-ether (generate them in the [faucet](https://www.rinkeby.io/)). Log in to **MetaMask** in your browser. To access any files on IPFS, you need to have 
+
+```
+$ ipfs daemon
+```
+running on port 8080 (default).  
 
 
 ## Built With
@@ -103,6 +157,7 @@ Currently this project is in deployment process. Hints on how to deploy it on an
 * [web3.js](https://web3js.readthedocs.io/en/1.0/getting-started.html) - JavaScript library for Ethereum contract interaction
 * [Bootstrap v4](https://getbootstrap.com/) - Front-end component library
 * [react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form) - Creating forms from JSON schemas
+* [webpack](https://webpack.js.org/) -  a static module bundler for JavaScript applications
 
 
 ## Authors
