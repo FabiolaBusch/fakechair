@@ -250,7 +250,14 @@ module.exports = {
         screw_ie8: true
       }
     }),*/
-    new UglifyJsPlugin(),
+    new UglifyJsPlugin(
+    {
+      parallel: true,
+      sourceMap: true,
+      
+    }
+    ),
+    
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin('static/css/[name].[contenthash:8].css'),
     // Generate a manifest file which contains a mapping of all asset filenames
