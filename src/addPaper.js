@@ -65,14 +65,11 @@ class AddPaper extends React.Component{
 
       // Get accounts.
       const accounts = await this.state.web3.eth.getAccounts() 
-
       // get conference instance
       const conferenceInstance = await conference.at(this.state.conferenceAddress)
-
-  
       // Add file to IPFS
       const ipfsHash = await ipfs.add(this.state.buffer)
-      
+
       this.setState({ipfsHash: ipfsHash[0].hash })
       const { digest, hashFunction, size } = multihash.getBytes32FromMultiash(ipfsHash[0].hash);
 

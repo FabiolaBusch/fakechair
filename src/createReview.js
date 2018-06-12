@@ -107,7 +107,7 @@ class CreateReview extends Component {
       let conference = this.props.confPaperMapping[formData.PaperAddress]
       let role = this.props.roleConfMapping[conference]
       console.log(role)
-      if(role=='author' || role=='none'){
+      if(role==='author' || role==='none'){
         throw new Error(" Only PC members or Admins can add reviews to a conference. ");
       }
 
