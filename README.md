@@ -143,7 +143,7 @@ A live demo is available at [fakechair.fabiolabuschendorf.de](http://fakechair.f
 This dapp is migrated to the Rinkeby testnet. Log in to **MetaMask** in your browser, select the Network Rinkeby and create an account with some test-ether (generate them in the [faucet](https://www.rinkeby.io/)). Files hosted on IPFS are accessed via a public gateway `https://ipfs.io/ipfs/HASH`. It might take some time to retrieve contents from the public gateway. To create content, you need to run an own IPFS node in your terminal:
 
 ```
-ipfs daemon
+$ ipfs daemon
 ```
 
 
