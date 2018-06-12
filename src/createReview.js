@@ -103,6 +103,14 @@ class CreateReview extends Component {
       const paper = contract(PaperContract);
       paper.setProvider(web3.currentProvider);
 
+
+      let conference = this.props.confPaperMapping[formData.PaperAddress]
+      let role = this.props.roleConfMapping[conference]
+      console.log(role)
+      if(role=='author' || role=='none'){
+        throw new Error(" Only PC members or Admins can add reviews to a conference. ");
+      }
+
       const paperInstance = await paper.at(formData.PaperAddress)
 
       const ipfsHash = await ipfs.add(buffer)
@@ -117,6 +125,7 @@ class CreateReview extends Component {
       let tx = transactionHash.tx;
       this.setState({transactionHash: tx});
     }catch (error) {
+      this.setState({transactionHash: 'Transaction failed.'})
       console.error(error);
     }
 

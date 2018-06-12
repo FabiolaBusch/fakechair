@@ -60,10 +60,12 @@ class ShowPaper extends React.Component{
     const conferenceInstance = await conference.at(this.state.conferenceAddress)
 
     const paperLength = await conferenceInstance.getPaperLength({from: accounts[0]})
-    this.setState({paperLength: 0})
+    console.log(paperLength.c[0])
+    this.setState({paperLength: paperLength.c[0]})
+    
     const confTitle = await conferenceInstance.title({from: accounts[0]})
     const cleanConfTitle = cleanTitle(confTitle)
-    this.setState({paperLength, cleanConfTitle})
+    this.setState({cleanConfTitle})
 
 
     const cleanTitles = [];
@@ -78,6 +80,7 @@ class ShowPaper extends React.Component{
       paperAddresses[i] = paper[0];
       cleanTitles[i] = cleanTitle(paper[2]); 
       hashes[i] = multihash.getMultihashFromContractResponse([paper[3].toString(), paper[4].c[0].toString(), paper[5].c[0].toString()])
+      this.props.getConferenceForPapers(paperAddresses[i],this.state.conferenceAddress);
     };
 
     this.setState({paperHash: hashes, title: cleanTitles, paperAddresses: paperAddresses})

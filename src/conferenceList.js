@@ -79,7 +79,10 @@ class ConferenceList extends React.Component{
       
         let conferenceInstance = await conference.at(addresses[i]);
         accountRole[i] = await conferenceInstance.getRole(accounts[0]);
+        this.props.getRolesForConferences(addresses[i],accountRole[i])
       };
+
+
 
       this.setState({addresses,years,cleanTitles,hashes,accountRole})
     } catch(error){
