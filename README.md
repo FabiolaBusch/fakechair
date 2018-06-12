@@ -1,15 +1,40 @@
-
 # FakeChair - Bachelor thesis Project
 
-A conference management and review tool on the Ethereum testnet Rinkeby. 
+A prototype of a conference management and review tool on the Ethereum testnet Rinkeby. 
 There are two ways to use this app:
 
-1. [Deploy locally](#prerequisites-for-local-development)
-2. [Access the live demo](#live-demo)
+1. [Access the live demo](#live-demo)
+2. [Install locally](#local-installation)
 
-## Getting Started
+There is information about
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+* [How to use the web application](#usage)
+* [Architecture](./documentation/architecture.md)
+  * [Back end](./documentation/architecture.md)
+  * [Front end](./documentation/architecture.md)
+* [Tools and Frameworks](#built-with)
+
+
+
+## Live Demo
+
+A live demo is available at [fakechair.fabiolabuschendorf.de](http://fakechair.fabiolabuschendorf.de) 
+
+This dapp is migrated to the Rinkeby testnet. Log in to **MetaMask** in your browser, select the Network Rinkeby and create an account with some test-ether (generate them in the [faucet](https://www.rinkeby.io/)). Files hosted on IPFS are accessed via a public gateway `https://ipfs.io/ipfs/HASH`. It might take some time to retrieve contents from the public gateway. To create content, you need to run an own IPFS node in your terminal:
+
+```
+$ ipfs daemon
+```
+## Usage
+
+![Workflow Diagram](./documentation/workflow.png)
+
+See: [Business Process Model and Notation](https://de.wikipedia.org/wiki/Business_Process_Model_and_Notation)
+This figure was made with [**yED** Graph Editor](https://www.yworks.com/products/yed?)
+
+## Local Installation
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#remote-deployment) for notes on how to deploy the project on a live system.
 
 
 ### Prerequisites for local development
@@ -52,7 +77,7 @@ Go into the project folder, you will find `package.json`. Install all dependenci
 $ npm install
 ```
 
-## Run dapp local
+### Run dapp locally
 
 Start Ganache on port `7545`.
 
@@ -78,11 +103,6 @@ Log in to MetaMask: copy the mnemonic from Ganache UI and import it to MetaMask.
 
 In your browser the dapp should now be running and working. 
 
-## Usage Workflow
-
-![Workflow Diagram](./documentation/workflow.png)
-
-See: [Business Process Model and Notation](https://de.wikipedia.org/wiki/Business_Process_Model_and_Notation)
 
 ### Running the tests
 
@@ -95,6 +115,7 @@ $ truffle test
 ## Remote Deployment
 
 This dapp is deployed on the Rinkeby testnet.
+
 ### Deploy contracts to testnet
 A full description on how to deploy it on an Ethereum testnet like Rinkeby can be found [here](http://truffleframework.com/tutorials/deploying-to-the-live-network). However, I added a few details:
 
@@ -135,16 +156,6 @@ This project is build with webpack. To build a compressed production version, ru
 $ npm run build
 ```
 This will create the folder `build_webpack/` with a single `index.html` file and a `/static` folder containing a minified .css and .js file. Put this content on a webserver. 
-
-## Live Demo
-
-A live demo is available at [fakechair.fabiolabuschendorf.de](http://fakechair.fabiolabuschendorf.de) 
-
-This dapp is migrated to the Rinkeby testnet. Log in to **MetaMask** in your browser, select the Network Rinkeby and create an account with some test-ether (generate them in the [faucet](https://www.rinkeby.io/)). Files hosted on IPFS are accessed via a public gateway `https://ipfs.io/ipfs/HASH`. It might take some time to retrieve contents from the public gateway. To create content, you need to run an own IPFS node in your terminal:
-
-```
-$ ipfs daemon
-```
 
 
 ## Built With
