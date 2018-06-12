@@ -80,7 +80,7 @@ In your browser the dapp should now be running and working.
 
 ## Usage Workflow
 
-![Workflow Diagram](./workflow.png)
+![Workflow Diagram](./documentation/workflow.png)
 
 See: [Business Process Model and Notation](https://de.wikipedia.org/wiki/Business_Process_Model_and_Notation)
 
