@@ -50,7 +50,7 @@ $ git clone https://gitlab.gwdg.de/f.buschendorf/fakechair
 This Project uses the node packet manager:
 
 ```
-$ sudo apt-get install npm 
+$ sudo apt-get install node 
 ```
 The dapp is build using the dapp framework *Truffle*:
 
